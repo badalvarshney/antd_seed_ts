@@ -48,9 +48,6 @@ const defaultState: CustomizationState = {
 const savedSettings: any = loadSavedCustomization();
 
 if (savedSettings) {
-  if (savedSettings.authLayout === 'glass') {
-    delete savedSettings.authLayout;
-  }
   if (savedSettings.inputBorderRadius === 24) {
     savedSettings.inputBorderRadius = 50;
   }

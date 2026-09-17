@@ -50,6 +50,24 @@ export const AuthLayout: React.FC = () => {
     );
   }
 
+  if (authLayout === 'glass') {
+    return (
+      <div className="auth-layout-container auth-layout-minimal-bg">
+        <div className="auth-bg-blob-1" style={{ background: blob1Background, width: 600, height: 600 }} />
+        <div className="auth-bg-blob-2" style={{ width: 600, height: 600 }} />
+        <div
+          className="auth-aurora-glass-card fade-in"
+          style={{ boxShadow: `0 30px 60px -12px ${hexToRgba(presetColor, 0.25)}` }}
+        >
+          <BrandLogoHeader />
+          <div className="auth-form-card">
+            <Outlet />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (authLayout === 'full-split') {
     return (
       <div className="auth-full-split-container">

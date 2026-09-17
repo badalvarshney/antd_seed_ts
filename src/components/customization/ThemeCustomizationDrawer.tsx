@@ -173,10 +173,11 @@ export const ThemeCustomizationDrawer: React.FC = () => {
             {/* AUTH PAGE LAYOUT (ONLY VISIBLE ON AUTH PAGES WHEN NOT LOGGED IN) */}
             {!isAuthenticated && (
               <div className="customizer-section-block">
-                <div className="customizer-section-title">AUTH PAGE LAYOUT (3 DESIGNS)</div>
+                <div className="customizer-section-title">AUTH PAGE LAYOUT (4 DESIGNS)</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {AUTH_LAYOUT_OPTIONS.map((opt) => {
                     const isActive = authLayout === opt.id;
+                    const isFullSplit = opt.id === 'full-split';
                     return (
                       <div
                         key={opt.id}
@@ -186,8 +187,10 @@ export const ThemeCustomizationDrawer: React.FC = () => {
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'flex-start',
+                          justifyContent: 'center',
                           textAlign: 'left',
                           height: 'auto',
+                          width: '100%',
                           ...(isActive ? activeOptionStyle : {}),
                         }}
                         onClick={() => dispatch(setAuthLayout(opt.id as AuthLayout))}
@@ -201,7 +204,7 @@ export const ThemeCustomizationDrawer: React.FC = () => {
                         </div>
 
                         {/* Variant 3 Sub-Options: Split Ratio (50/50, 70/30, 30/70) */}
-                        {isActive && opt.id === 'full-split' && (
+                        {isActive && isFullSplit && (
                           <div
                             style={{
                               marginTop: 10,

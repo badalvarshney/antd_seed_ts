@@ -9,7 +9,7 @@ export type InputStyle = 'normal' | 'outlined' | 'underlined';
 export type InputBackground = 'default' | 'filled' | 'glass';
 export type InputSize = 'small' | 'middle' | 'large';
 export type ThemeWidth = 'fluid' | 'boxed';
-export type AuthLayout = 'split' | 'minimal' | 'full-split';
+export type AuthLayout = 'split' | 'minimal' | 'full-split' | 'glass';
 export type AuthSplitRatio = '50-50' | '70-30' | '30-70';
 
 export interface ThemeConfig {
@@ -113,9 +113,10 @@ export const FONT_OPTIONS: FontOption[] = [
 ];
 
 export const AUTH_LAYOUT_OPTIONS: AuthLayoutOption[] = [
-  { id: 'split', name: 'Variant 1: Split Card (Default)', subtitle: 'Centered card with left hero canvas' },
+  { id: 'split', name: 'Variant 1: Split Card', subtitle: 'Centered card with left hero canvas' },
   { id: 'minimal', name: 'Variant 2: Minimal Card', subtitle: 'Clean centered card with top logo' },
-  { id: 'full-split', name: 'Variant 3: Full Screen Split', subtitle: 'Full height side-by-side screen split' },
+  { id: 'glass', name: 'Variant 3: Glass Aurora', subtitle: 'Frosted glass floating canvas' },
+  { id: 'full-split', name: 'Variant 4: Full Split', subtitle: 'Full height side-by-side screen split' },
 ];
 
 export const AUTH_SPLIT_RATIO_OPTIONS: AuthSplitRatioOption[] = [

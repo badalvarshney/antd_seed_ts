@@ -39,20 +39,20 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1120px;
+  max-width: 1180px;
   display: flex;
   background: #ffffff;
   border-radius: 24px;
   box-shadow: 0 25px 50px -12px rgba(103, 58, 183, 0.12), 0 0 0 1px rgba(226, 232, 240, 0.6);
   overflow: hidden;
-  min-height: 640px;
+  min-height: 520px;
 }
 
 /* Left Hero Canvas (Cloud Brand Side) */
 .auth-hero-section {
   flex: 1;
   background: linear-gradient(145deg, #5e35b1 0%, #673ab7 50%, #4527a0 100%);
-  padding: 48px;
+  padding: 36px 44px;
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -105,8 +105,8 @@
 .auth-hero-content {
   position: relative;
   z-index: 2;
-  margin-top: 32px;
-  margin-bottom: 32px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .auth-hero-badge {
@@ -121,25 +121,25 @@
   font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .auth-hero-title {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -1px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: #ffffff;
 }
 
 .auth-hero-desc {
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 14.5px;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.85);
-  max-width: 420px;
-  margin-bottom: 28px;
+  max-width: 460px;
+  margin-bottom: 20px;
 }
 
 .auth-hero-card-preview {
@@ -147,15 +147,15 @@
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
-  padding: 20px;
+  padding: 16px 20px;
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
 .auth-hero-avatar {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #ffffff;
   display: flex;
@@ -179,7 +179,7 @@
 /* Right Auth Form Section */
 .auth-form-section {
   flex: 1.1;
-  padding: 48px 56px;
+  padding: 36px 48px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -188,7 +188,7 @@
 
 .auth-form-card {
   width: 100%;
-  max-width: 440px;
+  max-width: 500px;
   margin: 0 auto;
 }
 
@@ -197,11 +197,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .social-btn {
-  height: 44px !important;
+  height: 42px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -464,23 +464,23 @@ body.dark-mode .custom-otp-box:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .auth-logo-icon-box {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 20px;
+  font-size: 19px;
   color: #ffffff;
 }
 
 .auth-logo-brand-title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   color: #0f172a;
   letter-spacing: -0.5px;
@@ -490,7 +490,7 @@ body.dark-mode .auth-logo-brand-title {
   color: #ffffff;
 }
 
-/* VARIANT 2: Minimal Centered Card (Matches User Screenshot) */
+/* VARIANT 2: Minimal Centered Card */
 .auth-layout-minimal-bg {
   background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%) !important;
 }
@@ -525,7 +525,7 @@ body.dark-mode .auth-minimal-card {
 
 .auth-full-split-hero {
   flex: 1;
-  padding: 60px;
+  padding: 44px;
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -537,7 +537,7 @@ body.dark-mode .auth-minimal-card {
 .auth-full-split-content {
   position: relative;
   z-index: 2;
-  max-width: 560px;
+  max-width: 660px;
   margin: auto 0;
 }
 
@@ -546,7 +546,7 @@ body.dark-mode .auth-minimal-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 48px;
+  padding: 44px 40px;
   background: #ffffff;
   overflow-y: auto;
 }
@@ -555,7 +555,7 @@ body.dark-mode .auth-full-split-form-panel {
   background: #0b1720;
 }
 
-/* VARIANT 4: Liquid Aurora Spectrum Wallpaper & Glass Card */
+/* VARIANT 4: Liquid Aurora Spectrum Wallpaper & Glass Card (Wider Width & Reduced Height) */
 .auth-aurora-overlay {
   position: absolute;
   top: 0;
@@ -572,13 +572,13 @@ body.dark-mode .auth-full-split-form-panel {
   position: relative;
   z-index: 3;
   width: 100%;
-  max-width: 440px;
+  max-width: 680px;
   background: rgba(18, 20, 26, 0.78) !important;
   backdrop-filter: blur(32px) saturate(190%);
   -webkit-backdrop-filter: blur(32px) saturate(190%);
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  border-radius: 28px;
-  padding: 32px 32px 24px 32px;
+  border-radius: 24px;
+  padding: 28px 48px;
   box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 

@@ -4,6 +4,7 @@ import { Provider, useSelector } from 'react-redux';
 import { ConfigProvider, App as AntdApp, theme } from 'antd';
 import { store } from './app/store';
 import AppRoutes from './routes/AppRoutes';
+import ScrollToTop from './components/common/ScrollToTop';
 import ThemeCustomizerTrigger from './components/customization/ThemeCustomizerTrigger';
 import ThemeCustomizationDrawer from './components/customization/ThemeCustomizationDrawer';
 import { selectCustomization } from './features/customization/customizationSlice';
@@ -147,6 +148,7 @@ const MainAppContent: React.FC = () => {
         <AntdAppHelper />
         <div className={themeWidth === 'boxed' ? 'theme-boxed-container' : 'theme-fluid-container'}>
           <BrowserRouter>
+            <ScrollToTop />
             <AppRoutes />
           </BrowserRouter>
           <ThemeCustomizerTrigger />
