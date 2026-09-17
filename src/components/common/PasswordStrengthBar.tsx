@@ -62,7 +62,7 @@ export const PasswordStrengthBar: React.FC<PasswordStrengthBarProps> = ({ passwo
   }
 
   return (
-    <div className="password-strength-container fade-in" style={{ marginTop: 10, marginBottom: 16 }}>
+    <div className="password-strength-container fade-in" style={{ marginTop: 2, marginBottom: 8 }}>
       <div
         style={{
           display: 'flex',

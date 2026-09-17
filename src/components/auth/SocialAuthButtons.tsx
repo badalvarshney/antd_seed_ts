@@ -65,7 +65,7 @@ export const SocialAuthButtons: React.FC<SocialAuthButtonsProps> = ({ actionText
         </Button>
       </div>
 
-      <Divider style={{ margin: '20px 0', fontSize: 12 }}>
+      <Divider style={{ margin: '12px 0', fontSize: 11.5 }}>
         OR {actionText.toUpperCase()} WITH EMAIL
       </Divider>
     </>

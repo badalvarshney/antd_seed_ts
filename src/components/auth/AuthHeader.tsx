@@ -24,7 +24,7 @@ export const AuthHeader: React.FC<AuthHeaderProps> = ({
   const { presetColor } = useSelector(selectCustomization);
 
   return (
-    <div style={{ marginBottom: 28, textAlign: 'left' }}>
+    <div style={{ marginBottom: 14, textAlign: 'left' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 8 }}>
         <div>
           <Title level={3} style={{ margin: 0, fontWeight: 800, letterSpacing: '-0.5px' }}>

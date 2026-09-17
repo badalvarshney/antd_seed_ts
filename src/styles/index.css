@@ -129,20 +129,20 @@ input.ant-input:not(.ant-input-affix-wrapper *) {
 
 /* 1. NORMAL STYLE (Label above input box) */
 body.input-style-normal .ant-form-item {
-  margin-bottom: 18px !important;
+  margin-bottom: 16px !important;
 }
 
 /* 2. OUTLINED STYLE (Animated Floating Label: rests centered inside as placeholder, animates UP on focus/type) */
 body.input-style-outlined .ant-form-item {
   position: relative !important;
-  margin-top: 16px !important;
-  margin-bottom: 26px !important;
+  margin-top: 12px !important;
+  margin-bottom: 20px !important;
 }
 
 /* Extra bottom spacing when an error message is present to prevent overlap with next label */
 body.input-style-outlined .ant-form-item-has-error,
 body.input-style-outlined .ant-form-item-with-help {
-  margin-bottom: 36px !important;
+  margin-bottom: 28px !important;
 }
 
 /* Error message formatting & clear spacing */
