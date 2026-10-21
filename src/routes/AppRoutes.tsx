@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AuthLayout from '../layouts/AuthLayout';
+import AppLayout from '../layouts/AppLayout';
 import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
 import ForgotPassword from '../pages/auth/ForgotPassword';
@@ -8,12 +9,19 @@ import ResetPassword from '../pages/auth/ResetPassword';
 import VerifyEmail from '../pages/auth/VerifyEmail';
 import Dashboard from '../pages/Dashboard';
 import ProtectedRoute from '../components/common/ProtectedRoute';
+import PublicRoute from '../components/common/PublicRoute';
 
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      {/* Public Authentication Routes inside AuthLayout */}
-      <Route element={<AuthLayout />}>
+      {/* Public Authentication Routes inside AuthLayout (Restricted for Authenticated Users) */}
+      <Route
+        element={
+          <PublicRoute>
+            <AuthLayout />
+          </PublicRoute>
+        }
+      >
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -23,15 +31,16 @@ export const AppRoutes: React.FC = () => {
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
       </Route>
 
-      {/* Protected Dashboard Route */}
+      {/* Protected Internal Routes wrapped in AntD AppLayout */}
       <Route
-        path="/"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <AppLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path="/" element={<Dashboard />} />
+      </Route>
 
       {/* Fallback Catch-all Route */}
       <Route path="*" element={<Navigate to="/" replace />} />

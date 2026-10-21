@@ -1189,7 +1189,7 @@ body.dark-mode .ant-descriptions-item-content {
 .dashboard-user-info {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   min-width: 0;
   flex: 1 1 auto;
 }

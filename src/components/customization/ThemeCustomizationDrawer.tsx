@@ -26,6 +26,7 @@ import {
   setRtl,
   setAuthLayout,
   setAuthSplitRatio,
+  setAppLayout,
   setDrawerOpen,
   resetCustomization,
   COLOR_PRESETS,
@@ -35,6 +36,7 @@ import {
   FONT_OPTIONS,
   AUTH_LAYOUT_OPTIONS,
   AUTH_SPLIT_RATIO_OPTIONS,
+  APP_LAYOUT_OPTIONS,
   INPUT_SHAPE_OPTIONS,
   BUTTON_SHAPE_OPTIONS,
   INPUT_STYLE_OPTIONS,
@@ -43,6 +45,7 @@ import {
   ERROR_STYLE_OPTIONS,
   type AuthLayout,
   type AuthSplitRatio,
+  type AppLayoutType,
   type InputStyle,
   type InputBackground,
   type InputSize,
@@ -70,6 +73,7 @@ export const ThemeCustomizationDrawer: React.FC = () => {
     rtl,
     authLayout = 'split',
     authSplitRatio = '50-50',
+    appLayout = 'side-nav',
     drawerOpen,
   } = customization;
 
@@ -111,7 +115,7 @@ export const ThemeCustomizationDrawer: React.FC = () => {
     <Drawer
       title="Theme Customization"
       placement="right"
-      size={360 as any}
+      width={typeof window !== 'undefined' && window.innerWidth < 400 ? '100%' : 360}
       onClose={handleClose}
       open={drawerOpen}
       autoFocus={false}
@@ -274,6 +278,59 @@ export const ThemeCustomizationDrawer: React.FC = () => {
                             </div>
                           </div>
                         )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ANTD APP LAYOUT (4 OFFICIAL DESIGNS - VISIBLE WHEN LOGGED IN) */}
+            {isAuthenticated && (
+              <div className="customizer-section-block">
+                <div className="customizer-section-title">ANTD APP LAYOUT (4 OFFICIAL DESIGNS)</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {APP_LAYOUT_OPTIONS.map((opt) => {
+                    const isActive = appLayout === opt.id;
+                    return (
+                      <div
+                        key={opt.id}
+                        className={`dual-option-card ${isActive ? 'active' : ''}`}
+                        style={{
+                          padding: '10px 14px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-start',
+                          justifyContent: 'center',
+                          textAlign: 'left',
+                          height: 'auto',
+                          width: '100%',
+                          cursor: 'pointer',
+                          ...(isActive ? activeOptionStyle : {}),
+                        }}
+                        onClick={() => dispatch(setAppLayout(opt.id as AppLayoutType))}
+                      >
+                        <div style={{ fontWeight: 700, fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                            {isActive && <CheckOutlined style={{ color: presetColor }} />}
+                            {opt.name}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: 10,
+                              fontWeight: 700,
+                              padding: '1px 6px',
+                              borderRadius: 4,
+                              background: isActive ? hexToRgba(presetColor, 0.22) : 'rgba(255, 255, 255, 0.12)',
+                              color: isActive ? presetColor : 'inherit',
+                            }}
+                          >
+                            {opt.badge}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: 11.5, opacity: 0.8, marginTop: 3 }}>
+                          {opt.subtitle}
+                        </div>
                       </div>
                     );
                   })}

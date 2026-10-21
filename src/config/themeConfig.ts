@@ -11,6 +11,7 @@ export type InputSize = 'small' | 'middle' | 'large' | 'xlarge';
 export type ThemeWidth = 'fluid' | 'boxed';
 export type AuthLayout = 'split' | 'minimal' | 'full-split' | 'glass';
 export type AuthSplitRatio = '50-50' | '70-30' | '30-70';
+export type AppLayoutType = 'side-nav' | 'top-side' | 'header-content-footer' | 'custom-trigger';
 export type ErrorStyle = 'text' | 'highlight';
 
 export interface ThemeConfig {
@@ -25,6 +26,7 @@ export interface ThemeConfig {
   rtl: boolean;
   authLayout: AuthLayout;
   authSplitRatio: AuthSplitRatio;
+  appLayout: AppLayoutType;
   minPasswordLength: number;
   inputBorderRadius: number;
   buttonBorderRadius: number;
@@ -96,6 +98,7 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   rtl: false,
   authLayout: 'split',
   authSplitRatio: '50-50',
+  appLayout: 'side-nav',
   minPasswordLength: 6,
   inputBorderRadius: 10,
   buttonBorderRadius: 10,
@@ -129,6 +132,45 @@ export const AUTH_LAYOUT_OPTIONS: AuthLayoutOption[] = [
   { id: 'minimal', name: 'Variant 2: Minimal Card', subtitle: 'Clean centered card with top logo' },
   { id: 'glass', name: 'Variant 3: Glass Aurora', subtitle: 'Frosted glass floating canvas' },
   { id: 'full-split', name: 'Variant 4: Full Split', subtitle: 'Full height side-by-side screen split' },
+];
+
+export interface AppLayoutOption {
+  id: AppLayoutType;
+  name: string;
+  subtitle: string;
+  antdDocName: string;
+  badge: string;
+}
+
+export const APP_LAYOUT_OPTIONS: AppLayoutOption[] = [
+  {
+    id: 'side-nav',
+    name: 'Side Navigation',
+    subtitle: 'Full-height Sider on left with Header & Content',
+    antdDocName: 'Side Navigation (Header Sider 1)',
+    badge: 'Header Sider 1',
+  },
+  {
+    id: 'top-side',
+    name: 'Top-side',
+    subtitle: 'Global Top Header with Sider & Content inside',
+    antdDocName: 'Top-side (Header Sider 2)',
+    badge: 'Header Sider 2',
+  },
+  {
+    id: 'header-content-footer',
+    name: 'Header-Content-Footer',
+    subtitle: 'Classic Top Navigation Bar with Content & Footer',
+    antdDocName: 'Header-Content-Footer',
+    badge: 'Top Navigation',
+  },
+  {
+    id: 'custom-trigger',
+    name: 'Custom Trigger',
+    subtitle: 'Collapsible Sider with toggle trigger button in Header',
+    antdDocName: 'Custom Trigger',
+    badge: 'Collapsible Trigger',
+  },
 ];
 
 export const AUTH_SPLIT_RATIO_OPTIONS: AuthSplitRatioOption[] = [

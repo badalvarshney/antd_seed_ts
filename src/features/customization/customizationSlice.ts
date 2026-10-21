@@ -9,6 +9,7 @@ import DEFAULT_THEME_CONFIG, {
   type ThemeWidth,
   type AuthLayout,
   type AuthSplitRatio,
+  type AppLayoutType,
   type ErrorStyle,
 } from '../../config/themeConfig';
 
@@ -123,6 +124,10 @@ export const customizationSlice = createSlice({
       state.authSplitRatio = action.payload;
       saveCustomization(state);
     },
+    setAppLayout: (state, action: PayloadAction<AppLayoutType>) => {
+      state.appLayout = action.payload;
+      saveCustomization(state);
+    },
     setErrorStyle: (state, action: PayloadAction<ErrorStyle>) => {
       state.errorStyle = action.payload;
       saveCustomization(state);
@@ -154,6 +159,7 @@ export const {
   setRtl,
   setAuthLayout,
   setAuthSplitRatio,
+  setAppLayout,
   setErrorStyle,
   toggleDrawer,
   setDrawerOpen,

@@ -153,6 +153,13 @@ const MainAppContent: React.FC = () => {
         borderRadius: 16,
         colorBgContainer: isDarkMode ? '#111d27' : '#ffffff',
       },
+      Menu: {
+        iconMarginInlineEnd: 6,
+        itemMarginInline: 4,
+        itemPaddingInline: 12,
+        iconSize: 15,
+        horizontalItemBorderRadius: 6,
+      },
       Checkbox: {
         colorPrimary: presetColor,
       },

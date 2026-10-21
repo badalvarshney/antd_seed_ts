@@ -1,0 +1,311 @@
+/**
+ * ==============================================================================
+ * ANTD APP LAYOUT RESPONSIVE & COMPACT STYLES
+ * ==============================================================================
+ */
+
+.app-layout-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Header Styles - Compact Sleek Height & Padding */
+.app-header {
+  height: 56px !important;
+  line-height: 56px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  transition: all 0.2s ease;
+  z-index: 99;
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px !important;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px !important;
+  flex-shrink: 0;
+}
+
+/* Brand Logo Box in Header & Sider */
+.app-brand-logo-box {
+  display: flex;
+  align-items: center;
+  gap: 7px !important;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.app-brand-logo-box:hover {
+  opacity: 0.9;
+}
+
+.app-brand-title {
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ==============================================================================
+   EXPANDED INLINE MENU: PERFECT ICON & TITLE ALIGNMENT (FIXES MISALIGNMENT IN IMAGE 1)
+   ============================================================================== */
+
+/* Level 1 regular items and submenu titles must share identical dimensions & paddings */
+.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-item,
+.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-submenu > .ant-menu-submenu-title {
+  height: 40px !important;
+  line-height: 40px !important;
+  margin-top: 3px !important;
+  margin-bottom: 3px !important;
+  margin-inline: 6px !important;
+  padding-inline: 12px !important;
+  width: calc(100% - 12px) !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  position: relative !important;
+}
+
+/* Ensure Submenu Title (e.g. User Management) arrow is pushed to the far right, keeping text aligned */
+.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-title-content {
+  flex: 1 1 auto !important;
+}
+
+.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-submenu-arrow {
+  position: static !important;
+  margin-left: auto !important;
+  margin-right: 2px !important;
+}
+
+/* Icons inside expanded inline items */
+.ant-menu-inline:not(.ant-menu-inline-collapsed) .ant-menu-item-icon,
+.ant-menu-inline:not(.ant-menu-inline-collapsed) .ant-menu-submenu-title .ant-menu-item-icon {
+  width: 18px !important;
+  min-width: 18px !important;
+  font-size: 16px !important;
+  margin-inline-end: 8px !important;
+  margin-right: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+/* Child items inside opened submenu */
+.ant-menu-sub.ant-menu-inline > .ant-menu-item {
+  height: 36px !important;
+  line-height: 36px !important;
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+  padding-inline-start: 38px !important;
+  border-radius: 6px !important;
+  width: calc(100% - 12px) !important;
+  margin-inline: 6px !important;
+  font-size: 13px !important;
+}
+
+/* ==============================================================================
+   COLLAPSED MENU: PERFECT ICON CENTERING & TIGHT SPACING (FIXES IMAGE 2)
+   ============================================================================== */
+
+.ant-menu-inline-collapsed {
+  width: 100% !important;
+}
+
+.ant-menu-inline-collapsed > .ant-menu-item,
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+  width: 44px !important;
+  height: 44px !important;
+  line-height: 44px !important;
+  margin: 5px auto !important;
+  padding: 0 !important;
+  padding-inline: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 10px !important;
+  text-align: center !important;
+}
+
+/* Hide submenu arrow and text label in collapsed mode */
+.ant-menu-inline-collapsed .ant-menu-submenu-arrow,
+.ant-menu-inline-collapsed .ant-menu-title-content {
+  display: none !important;
+}
+
+/* Center icons in collapsed mode */
+.ant-menu-inline-collapsed .ant-menu-item-icon,
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-item-icon {
+  margin: 0 !important;
+  margin-inline-end: 0 !important;
+  margin-right: 0 !important;
+  font-size: 18px !important;
+  min-width: unset !important;
+  width: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Sider bottom collapse trigger bar */
+.ant-layout-sider-trigger {
+  height: 40px !important;
+  line-height: 40px !important;
+  border-top: 1px solid rgba(140, 140, 140, 0.15) !important;
+  font-size: 14px !important;
+}
+
+/* ==============================================================================
+   TOP HORIZONTAL MENU IN HEADER (CENTER ALIGNED ON DESKTOP)
+   ============================================================================== */
+
+.app-header-center {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  padding: 0 16px;
+  overflow: hidden;
+}
+
+.app-header-center .ant-menu-horizontal {
+  border-bottom: none !important;
+  background: transparent !important;
+  height: 52px !important;
+  line-height: 52px !important;
+  display: flex !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+.app-header-center .ant-menu-horizontal .ant-menu-item,
+.app-header-center .ant-menu-horizontal .ant-menu-submenu-title {
+  padding-inline: 12px !important;
+  margin-inline: 2px !important;
+  height: 44px !important;
+  line-height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.app-header-center .ant-menu-horizontal .ant-menu-item .ant-menu-item-icon,
+.app-header-center .ant-menu-horizontal .ant-menu-submenu-title .ant-menu-item-icon {
+  margin-inline-end: 6px !important;
+  margin-right: 6px !important;
+}
+
+/* Mobile Navigation Hamburger Button */
+.app-mobile-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-size: 17px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Mobile Navigation Drawer */
+.app-mobile-drawer .ant-drawer-body {
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-mobile-drawer-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(140, 140, 140, 0.18);
+}
+
+.app-mobile-drawer-menu {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  border-right: none !important;
+}
+
+.app-mobile-drawer-footer {
+  padding: 14px 16px;
+  border-top: 1px solid rgba(140, 140, 140, 0.18);
+}
+
+/* Content Area */
+.app-main-content {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .app-header {
+    height: 54px !important;
+    line-height: 54px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    height: 52px !important;
+    line-height: 52px !important;
+    padding: 0 12px !important;
+  }
+
+  .app-header-badge {
+    display: none !important;
+  }
+
+  .app-breadcrumb-header {
+    display: none !important;
+  }
+
+  .app-main-content {
+    margin: 10px !important;
+    padding: 0 !important;
+  }
+
+  .app-hcf-content {
+    padding: 10px 12px !important;
+  }
+
+  .app-topside-content-layout {
+    padding: 0 10px 10px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .app-header {
+    padding: 0 8px !important;
+  }
+
+  .app-brand-title {
+    font-size: 15px !important;
+  }
+
+  .app-main-content {
+    margin: 6px !important;
+  }
+}

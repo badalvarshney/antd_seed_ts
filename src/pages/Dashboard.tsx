@@ -112,7 +112,7 @@ export const Dashboard: React.FC = () => {
         <Card
           type="inner"
           title={
-            <Space>
+            <Space size={6}>
               <KeyOutlined style={{ color: presetColor }} />
               <span style={{ fontWeight: 700 }}>Active JWT Token</span>
             </Space>
