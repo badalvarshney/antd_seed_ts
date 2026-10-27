@@ -25,8 +25,10 @@ export const ScrollToTop = () => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 
-    // Reset scroll on scrollable panels (e.g. full-split layout form panel)
-    const scrollPanels = document.querySelectorAll('.auth-full-split-form-panel, .auth-layout-container');
+    // Reset scroll on scrollable panels (e.g. app content container, full-split layout form panel)
+    const scrollPanels = document.querySelectorAll(
+      '.auth-full-split-form-panel, .auth-layout-container, .app-content-scroll-container, .app-main-content'
+    );
     scrollPanels.forEach((panel) => {
       if (panel) {
         panel.scrollTop = 0;

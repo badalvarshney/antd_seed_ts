@@ -9,6 +9,8 @@ import {
   Space,
   Tag,
   Drawer,
+  Tooltip,
+  App,
   theme,
   type MenuProps,
 } from 'antd';
@@ -26,6 +28,8 @@ import {
   SlidersOutlined,
   CheckOutlined,
   CloseOutlined,
+  SearchOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,17 +42,19 @@ import { selectCurrentUser } from '../features/auth/authSelectors';
 import { logoutUser } from '../features/auth/authSlice';
 import { APP_LAYOUT_OPTIONS, type AppLayoutType } from '../config/themeConfig';
 import { hexToRgba } from '../utils/colorUtils';
+import GlobalSearchModal from '../components/common/GlobalSearchModal';
 import '../styles/AppLayout.css';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const SIDER_WIDTH = 230;
+const SIDER_WIDTH = 240;
 const SIDER_COLLAPSED_WIDTH = 72;
 
 export const AppLayout: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = theme.useToken();
+  const { modal } = App.useApp();
 
   const customization = useSelector(selectCustomization);
   const user = useSelector(selectCurrentUser);
@@ -62,6 +68,20 @@ export const AppLayout: React.FC = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(() => typeof window !== 'undefined' && window.innerWidth < 992);
   const [selectedKey, setSelectedKey] = useState<string>('dashboard');
+  const [searchModalOpen, setSearchModalOpen] = useState<boolean>(false);
+
+  // Global Keyboard Shortcut: Cmd+K / Ctrl+K to toggle Search Modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchModalOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -87,7 +107,26 @@ export const AppLayout: React.FC = () => {
   }, [mobileDrawerOpen]);
 
   const handleLogout = () => {
-    dispatch(logoutUser() as any);
+    modal.confirm({
+      title: 'Sign Out',
+      icon: <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />,
+      content: 'Are you sure you want to sign out of your account?',
+      okText: 'Yes, Sign Out',
+      cancelText: 'Cancel',
+      okButtonProps: {
+        danger: true,
+        style: { borderRadius: 6 },
+      },
+      cancelButtonProps: {
+        style: { borderRadius: 6 },
+      },
+      centered: true,
+      autoFocusButton: 'cancel',
+      maskClosable: true,
+      onOk: () => {
+        dispatch(logoutUser() as any);
+      },
+    });
   };
 
   const handleMenuSelect = (key: string) => {
@@ -174,11 +213,29 @@ export const AppLayout: React.FC = () => {
       {
         key: 'header-user-info',
         label: (
-          <div style={{ padding: '4px 0' }}>
-            <div style={{ fontWeight: 700, color: token.colorTextHeading }}>
+          <div style={{ padding: '6px 8px 4px' }}>
+            <div
+              style={{
+                fontWeight: 700,
+                fontSize: 14,
+                color: token.colorTextHeading,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
               {user?.firstName ? `${user.firstName} ${user.lastName}` : 'Authenticated User'}
             </div>
-            <div style={{ fontSize: 12, color: token.colorTextSecondary }}>
+            <div
+              style={{
+                fontSize: 12,
+                color: token.colorTextSecondary,
+                marginTop: 3,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
               {user?.email || 'user@example.com'}
             </div>
           </div>
@@ -188,14 +245,14 @@ export const AppLayout: React.FC = () => {
       { type: 'divider' },
       {
         key: 'layout-switcher',
-        icon: <AppstoreOutlined />,
+        icon: <AppstoreOutlined style={{ fontSize: 15 }} />,
         label: 'Switch AntD Layout',
         children: APP_LAYOUT_OPTIONS.map((opt) => ({
           key: opt.id,
           label: (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', minWidth: 160 }}>
-              <span>{opt.name}</span>
-              {appLayout === opt.id && <CheckOutlined style={{ color: presetColor }} />}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', minWidth: 175, gap: 12 }}>
+              <span style={{ fontSize: 13 }}>{opt.name}</span>
+              {appLayout === opt.id && <CheckOutlined style={{ color: presetColor, fontSize: 13 }} />}
             </div>
           ),
           onClick: () => dispatch(setAppLayout(opt.id)),
@@ -203,14 +260,14 @@ export const AppLayout: React.FC = () => {
       },
       {
         key: 'theme-customizer',
-        icon: <SlidersOutlined />,
+        icon: <SlidersOutlined style={{ fontSize: 15 }} />,
         label: 'Theme Customizer',
         onClick: () => dispatch(toggleDrawer()),
       },
       { type: 'divider' },
       {
         key: 'logout',
-        icon: <LogoutOutlined />,
+        icon: <LogoutOutlined style={{ fontSize: 15 }} />,
         danger: true,
         label: 'Sign Out',
         onClick: handleLogout,
@@ -270,31 +327,33 @@ export const AppLayout: React.FC = () => {
   // Reusable Right Header Actions
   const renderHeaderRightActions = () => (
     <div className="app-header-right">
-      {!isMobile && (
-        <Tag
-          color={presetColor}
-          className="app-header-badge"
-          style={{
-            margin: 0,
-            fontWeight: 600,
-            borderRadius: 6,
-            padding: '1px 8px',
-            fontSize: 11,
-          }}
+      {/* Header Compact Search Trigger Button */}
+      <Tooltip title="Quick Search (⌘K)" mouseEnterDelay={0.4}>
+        <Button
+          type="text"
+          onClick={() => setSearchModalOpen(true)}
+          className="app-header-search-btn"
+          aria-label="Search"
         >
-          {APP_LAYOUT_OPTIONS.find((o) => o.id === appLayout)?.name || 'Side Navigation'}
-        </Tag>
-      )}
+          <Space size={7} align="center">
+            <SearchOutlined style={{ fontSize: 14, color: presetColor }} />
+            {!isMobile && (
+              <>
+                <span className="app-header-search-label">Search</span>
+                <span className="app-header-search-pill-kbd">⌘K</span>
+              </>
+            )}
+          </Space>
+        </Button>
+      </Tooltip>
 
-      <Button
-        type="text"
-        icon={<SlidersOutlined />}
-        onClick={() => dispatch(toggleDrawer())}
-        title="Customize Theme & Layout"
-        style={{ fontSize: 16 }}
-      />
-
-      <Dropdown menu={userMenuProps} placement="bottomRight" arrow>
+      <Dropdown
+        menu={userMenuProps}
+        placement="bottomRight"
+        arrow={{ pointAtCenter: true }}
+        rootClassName="app-user-dropdown"
+        overlayClassName="app-user-dropdown"
+      >
         <Space size={6} style={{ cursor: 'pointer', padding: '2px 4px', borderRadius: 8 }}>
           <Avatar
             size={isMobile ? 32 : 34}
@@ -309,6 +368,16 @@ export const AppLayout: React.FC = () => {
         </Space>
       </Dropdown>
     </div>
+  );
+
+  // Reusable Global Search Modal Node
+  const renderSearchModal = () => (
+    <GlobalSearchModal
+      open={searchModalOpen}
+      onClose={() => setSearchModalOpen(false)}
+      onSelectKey={(key) => handleMenuSelect(key)}
+      onLogout={handleLogout}
+    />
   );
 
   // Reusable Breadcrumb Node
@@ -383,7 +452,7 @@ export const AppLayout: React.FC = () => {
 
         {appLayout === 'top-side' && (
           <>
-            <div style={{ padding: '12px 16px 4px', fontSize: 11, fontWeight: 700, color: token.colorTextSecondary, letterSpacing: '0.5px' }}>
+            <div className="app-sider-section-title">
               SUB-NAVIGATION
             </div>
             <Menu
@@ -440,9 +509,11 @@ export const AppLayout: React.FC = () => {
     return (
       <Layout className="app-layout-wrapper">
         {renderMobileDrawer()}
+        {renderSearchModal()}
 
         {!isMobile && (
           <Sider
+            className="app-layout-sider"
             collapsible
             collapsed={collapsed}
             onCollapse={(val) => setCollapsed(val)}
@@ -451,8 +522,8 @@ export const AppLayout: React.FC = () => {
             width={SIDER_WIDTH}
             theme={isDarkMode ? 'dark' : 'light'}
             style={{
-              borderRight: `1px solid ${token.colorBorderSecondary}`,
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+              borderRight: isDarkMode ? '1px solid rgba(255, 255, 255, 0.07)' : `1px solid ${token.colorBorderSecondary}`,
+              boxShadow: isDarkMode ? '4px 0 20px rgba(0, 0, 0, 0.25)' : '0 2px 8px rgba(0, 0, 0, 0.04)',
             }}
           >
             {renderBrandLogo(collapsed)}
@@ -467,7 +538,7 @@ export const AppLayout: React.FC = () => {
           </Sider>
         )}
 
-        <Layout style={{ minWidth: 0 }}>
+        <Layout className="app-layout-main">
           <Header
             className="app-header"
             style={{
@@ -491,12 +562,14 @@ export const AppLayout: React.FC = () => {
             {renderHeaderRightActions()}
           </Header>
 
-          <Content className="app-main-content" style={{ margin: isMobile ? 10 : 20, minHeight: 280 }}>
-            {isMobile && renderBreadcrumb({ margin: '0 0 10px 2px' })}
-            <Outlet />
-          </Content>
+          <div className="app-content-scroll-container">
+            <Content className="app-main-content" style={{ margin: isMobile ? 10 : 20, minHeight: 280 }}>
+              {isMobile && renderBreadcrumb({ margin: '0 0 10px 2px' })}
+              <Outlet />
+            </Content>
 
-          {renderFooter()}
+            {renderFooter()}
+          </div>
         </Layout>
       </Layout>
     );
@@ -513,6 +586,7 @@ export const AppLayout: React.FC = () => {
     return (
       <Layout className="app-layout-wrapper">
         {renderMobileDrawer()}
+        {renderSearchModal()}
 
         <Header
           className="app-header"
@@ -555,17 +629,17 @@ export const AppLayout: React.FC = () => {
           {renderHeaderRightActions()}
         </Header>
 
-        <Layout style={{ minWidth: 0 }}>
+        <Layout className="app-topside-body-layout" style={{ minWidth: 0 }}>
           {!isMobile && (
             <Sider
+              className="app-layout-sider app-topside-sider"
               width={SIDER_WIDTH}
               theme={isDarkMode ? 'dark' : 'light'}
               style={{
-                borderRight: `1px solid ${token.colorBorderSecondary}`,
-                background: token.colorBgContainer,
+                borderRight: isDarkMode ? '1px solid rgba(255, 255, 255, 0.07)' : `1px solid ${token.colorBorderSecondary}`,
               }}
             >
-              <div style={{ padding: '12px 16px 4px', fontSize: 11, fontWeight: 700, color: token.colorTextSecondary, letterSpacing: '0.5px' }}>
+              <div className="app-sider-section-title">
                 SUB-NAVIGATION
               </div>
               <Menu
@@ -578,13 +652,13 @@ export const AppLayout: React.FC = () => {
             </Sider>
           )}
 
-          <Layout className="app-topside-content-layout" style={{ padding: isMobile ? 10 : '0 18px 18px', minWidth: 0 }}>
+          <div className="app-content-scroll-container app-topside-content-scroll" style={{ padding: isMobile ? 10 : '0 18px 18px' }}>
             {renderBreadcrumb({ margin: isMobile ? '0 0 10px' : '12px 0' })}
             <Content className="app-main-content" style={{ minHeight: 280 }}>
               <Outlet />
             </Content>
             {renderFooter()}
-          </Layout>
+          </div>
         </Layout>
       </Layout>
     );
@@ -601,6 +675,7 @@ export const AppLayout: React.FC = () => {
     return (
       <Layout className="app-layout-wrapper">
         {renderMobileDrawer()}
+        {renderSearchModal()}
 
         <Header
           className="app-header"
@@ -639,14 +714,16 @@ export const AppLayout: React.FC = () => {
           {renderHeaderRightActions()}
         </Header>
 
-        <Content className="app-main-content app-hcf-content" style={{ padding: isMobile ? '10px 12px' : '18px 24px' }}>
-          {renderBreadcrumb({ margin: '0 0 12px' })}
-          <div style={{ minHeight: 380, width: '100%' }}>
-            <Outlet />
-          </div>
-        </Content>
+        <div className="app-content-scroll-container app-hcf-content-scroll">
+          <Content className="app-main-content app-hcf-content" style={{ padding: isMobile ? '10px 12px' : '18px 24px' }}>
+            {renderBreadcrumb({ margin: '0 0 12px' })}
+            <div style={{ minHeight: 380, width: '100%' }}>
+              <Outlet />
+            </div>
+          </Content>
 
-        {renderFooter()}
+          {renderFooter()}
+        </div>
       </Layout>
     );
   }
@@ -661,19 +738,21 @@ export const AppLayout: React.FC = () => {
   return (
     <Layout className="app-layout-wrapper">
       {renderMobileDrawer()}
+      {renderSearchModal()}
 
       {!isMobile && (
         <Sider
+          className="app-layout-sider"
           trigger={null}
           collapsible
           collapsed={collapsed}
           breakpoint="lg"
-          collapsedWidth={72}
-          width={220}
+          collapsedWidth={SIDER_COLLAPSED_WIDTH}
+          width={SIDER_WIDTH}
           theme={isDarkMode ? 'dark' : 'light'}
           style={{
-            borderRight: `1px solid ${token.colorBorderSecondary}`,
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+            borderRight: isDarkMode ? '1px solid rgba(255, 255, 255, 0.07)' : `1px solid ${token.colorBorderSecondary}`,
+            boxShadow: isDarkMode ? '4px 0 20px rgba(0, 0, 0, 0.25)' : '0 2px 8px rgba(0, 0, 0, 0.04)',
           }}
         >
           {renderBrandLogo(collapsed)}
@@ -688,7 +767,7 @@ export const AppLayout: React.FC = () => {
         </Sider>
       )}
 
-      <Layout style={{ minWidth: 0 }}>
+      <Layout className="app-layout-main">
         <Header
           className="app-header"
           style={{
@@ -731,12 +810,14 @@ export const AppLayout: React.FC = () => {
           {renderHeaderRightActions()}
         </Header>
 
-        <Content className="app-main-content" style={{ margin: isMobile ? 10 : 20, minHeight: 280 }}>
-          {isMobile && renderBreadcrumb({ margin: '0 0 10px 2px' })}
-          <Outlet />
-        </Content>
+        <div className="app-content-scroll-container">
+          <Content className="app-main-content" style={{ margin: isMobile ? 10 : 20, minHeight: 280 }}>
+            {isMobile && renderBreadcrumb({ margin: '0 0 10px 2px' })}
+            <Outlet />
+          </Content>
 
-        {renderFooter()}
+          {renderFooter()}
+        </div>
       </Layout>
     </Layout>
   );

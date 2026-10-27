@@ -412,12 +412,12 @@ body.input-style-outlined .ant-form-item-with-help {
 }
 
 /* 2. Hide Leaving & Previous Error Nodes (Prevents duplicate stacking & text overlap) */
-.ant-show-help-item-leave,
-.ant-show-help-item-leave-active,
-.ant-motion-collapse-leave,
-.ant-motion-collapse-leave-active,
-[class*="ant-show-help-item-leave"],
-[class*="ant-motion-collapse-leave"],
+.ant-form-item .ant-show-help-item-leave,
+.ant-form-item .ant-show-help-item-leave-active,
+.ant-form-item .ant-motion-collapse-leave,
+.ant-form-item .ant-motion-collapse-leave-active,
+.ant-form-item [class*="ant-show-help-item-leave"],
+.ant-form-item [class*="ant-motion-collapse-leave"],
 .ant-form-item-explain-holder > *:not(:last-child),
 .ant-form-item-explain > *:not(:last-child),
 .ant-form-item-explain-error > *:not(:last-child),
@@ -487,14 +487,14 @@ body.input-style-underlined .ant-form-item-explain,
 body.input-style-underlined .ant-form-item-explain-error,
 body .otp-form-item .ant-form-item-explain,
 body .otp-form-item .ant-form-item-explain-error,
-.ant-show-help,
-.ant-show-help-item,
-.ant-show-help-item-appear,
-.ant-show-help-item-enter,
-.ant-motion-collapse,
-[class*="ant-show-help"]:not([class*="leave"]),
+.ant-form-item .ant-show-help,
+.ant-form-item .ant-show-help-item,
+.ant-form-item .ant-show-help-item-appear,
+.ant-form-item .ant-show-help-item-enter,
+.ant-form-item .ant-motion-collapse,
+.ant-form-item [class*="ant-show-help"]:not([class*="leave"]),
 [class*="ant-form-item-explain"],
-[class*="ant-motion-collapse"]:not([class*="leave"]) {
+.ant-form-item [class*="ant-motion-collapse"]:not([class*="leave"]) {
   font-size: 10px !important;
   font-weight: 600 !important;
   margin-top: 0 !important;

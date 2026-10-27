@@ -1,0 +1,249 @@
+/**
+ * ==============================================================================
+ * ANTD GLOBAL SEARCH MODAL STYLES
+ * High-performance Ant Design customizations matching the application theme.
+ * Modal Header with title "Search" and close icon on the right,
+ * followed by a dedicated Search Input with inner Search Icon.
+ * Smooth, stable height behavior with zero jarring jerks.
+ * ==============================================================================
+ */
+
+/* 1. Modal Dialog Outer Shell */
+.app-search-modal .ant-modal-content {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.06) !important;
+  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+.app-search-modal.dark-mode .ant-modal-content {
+  background-color: #1b1c1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 28px 70px -12px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+}
+
+.app-search-modal.light-mode .ant-modal-content {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Modal Backdrop */
+.app-search-modal-root .ant-modal-mask {
+  backdrop-filter: blur(6px) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 2. Modal Header ("Search" title + Close icon on right) */
+.app-search-modal .ant-modal-header {
+  padding: 16px 20px 14px 20px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.app-search-modal.dark-mode .ant-modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Close Icon on Top Right of Modal Header */
+.app-search-modal .ant-modal-close {
+  top: 14px !important;
+  right: 18px !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 6px !important;
+  color: #94a3b8 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+.app-search-modal.dark-mode .ant-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.app-search-modal.light-mode .ant-modal-close:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* 3. Input with Inner Search Icon */
+.app-search-modal-inner-input.ant-input-affix-wrapper {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  transition: all 0.2s ease !important;
+}
+
+.app-search-modal.light-mode .app-search-modal-inner-input.ant-input-affix-wrapper:hover,
+.app-search-modal.light-mode .app-search-modal-inner-input.ant-input-affix-wrapper-focused,
+.app-search-modal.light-mode .app-search-modal-inner-input.ant-input-affix-wrapper:focus {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.1) !important;
+}
+
+.app-search-modal.dark-mode .app-search-modal-inner-input.ant-input-affix-wrapper {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.app-search-modal.dark-mode .app-search-modal-inner-input.ant-input-affix-wrapper:hover,
+.app-search-modal.dark-mode .app-search-modal-inner-input.ant-input-affix-wrapper-focused,
+.app-search-modal.dark-mode .app-search-modal-inner-input.ant-input-affix-wrapper:focus {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
+}
+
+.app-search-modal.dark-mode .app-search-modal-inner-input input {
+  color: #f3f4f6 !important;
+}
+
+.app-search-modal.dark-mode .app-search-modal-inner-input input::placeholder {
+  color: #71717a !important;
+}
+
+/* 4. Navigation List Items - STABLE COMFORTABLE CONTAINER HEIGHT */
+.app-search-list-container {
+  padding: 4px 10px 14px 10px;
+  min-height: 250px;
+  max-height: 380px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+.app-search-nav-item {
+  cursor: pointer !important;
+  padding: 8px 12px !important;
+  margin-bottom: 3px !important;
+  border-radius: 10px !important;
+  border: none !important;
+  transition: background 0.15s ease, opacity 0.2s ease, transform 0.2s ease !important;
+}
+
+/* Hover and active keyboard selection */
+.app-search-modal.dark-mode .app-search-nav-item:hover,
+.app-search-modal.dark-mode .app-search-nav-item.is-selected {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.app-search-modal.light-mode .app-search-nav-item:hover,
+.app-search-modal.light-mode .app-search-nav-item.is-selected {
+  background: #f1f5f9 !important;
+}
+
+/* Navigation Icon Avatar Container */
+.app-search-item-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.app-search-modal.dark-mode .app-search-item-avatar {
+  background: rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+}
+
+.app-search-modal.light-mode .app-search-item-avatar {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.app-search-nav-item:hover .app-search-item-avatar,
+.app-search-nav-item.is-selected .app-search-item-avatar {
+  transform: scale(1.05);
+}
+
+/* ==============================================================================
+   HEADER COMPACT SEARCH TRIGGER BUTTON
+   ============================================================================== */
+
+.app-header-search-btn.ant-btn {
+  height: 34px !important;
+  padding: 0 10px !important;
+  border-radius: 8px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #f8fafc !important;
+  color: #64748b !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+}
+
+.app-header-search-btn.ant-btn:hover {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+  transform: translateY(-0.5px);
+}
+
+.app-header-search-label {
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  color: #64748b !important;
+  letter-spacing: 0.1px !important;
+}
+
+.app-header-search-btn.ant-btn:hover .app-header-search-label {
+  color: #0f172a !important;
+}
+
+.app-header-search-pill-kbd {
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  padding: 1px 5px !important;
+  line-height: 16px !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #64748b !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Dark Mode Header Search Trigger */
+body.dark-mode .app-header-search-btn.ant-btn,
+.dark-mode .app-header-search-btn.ant-btn {
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #94a3b8 !important;
+  box-shadow: none !important;
+}
+
+body.dark-mode .app-header-search-btn.ant-btn:hover,
+.dark-mode .app-header-search-btn.ant-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #f8fafc !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+body.dark-mode .app-header-search-label,
+.dark-mode .app-header-search-label {
+  color: #94a3b8 !important;
+}
+
+body.dark-mode .app-header-search-btn.ant-btn:hover .app-header-search-label,
+.dark-mode .app-header-search-btn.ant-btn:hover .app-header-search-label {
+  color: #ffffff !important;
+}
+
+body.dark-mode .app-header-search-pill-kbd,
+.dark-mode .app-header-search-pill-kbd {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #cbd5e1 !important;
+  box-shadow: none !important;
+}

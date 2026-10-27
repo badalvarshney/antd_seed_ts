@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Avatar, Button, Typography, Tag, Space, Divider, message } from 'antd';
+import { Card, Avatar, Button, Typography, Tag, Space, Divider, message, App } from 'antd';
 import {
   UserOutlined,
   LogoutOutlined,
@@ -9,6 +9,7 @@ import {
   RocketOutlined,
   CopyOutlined,
   CheckOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, selectAuthToken } from '../features/auth/authSelectors';
@@ -19,13 +20,33 @@ const { Title, Text } = Typography;
 
 export const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
+  const { modal } = App.useApp();
   const user = useSelector(selectCurrentUser);
   const token = useSelector(selectAuthToken);
   const { presetColor } = useSelector(selectCustomization);
   const [copied, setCopied] = useState(false);
 
   const handleLogout = () => {
-    dispatch(logoutUser() as any);
+    modal.confirm({
+      title: 'Sign Out',
+      icon: <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />,
+      content: 'Are you sure you want to sign out of your account?',
+      okText: 'Yes, Sign Out',
+      cancelText: 'Cancel',
+      okButtonProps: {
+        danger: true,
+        style: { borderRadius: 6 },
+      },
+      cancelButtonProps: {
+        style: { borderRadius: 6 },
+      },
+      centered: true,
+      autoFocusButton: 'cancel',
+      maskClosable: true,
+      onOk: () => {
+        dispatch(logoutUser() as any);
+      },
+    });
   };
 
   const handleCopyToken = () => {
