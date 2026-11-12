@@ -1421,3 +1421,27 @@ body.dark-mode .jwt-copy-btn:hover {
     font-size: 11.5px !important;
   }
 }
+
+/* ==========================================================================
+   AppCard Enhancements (Clean collapsed state and header alignment)
+   ========================================================================== */
+.app-card-collapsed .ant-card-head {
+  border-bottom: none;
+}
+
+.app-card-gradient,
+.app-card-gradient .ant-card-head-title,
+.app-card-gradient .ant-statistic-title,
+.app-card-gradient .ant-typography {
+  color: #ffffff !important;
+}
+
+.app-card-gradient .ant-card-head {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.app-card-gradient .ant-statistic-content-value,
+.app-card-gradient .ant-statistic-content-prefix,
+.app-card-gradient .ant-statistic-content-suffix {
+  color: #ffffff !important;
+}

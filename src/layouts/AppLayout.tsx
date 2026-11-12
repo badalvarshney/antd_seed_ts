@@ -30,8 +30,9 @@ import {
   CloseOutlined,
   SearchOutlined,
   ExclamationCircleOutlined,
+  CreditCardOutlined,
 } from '@ant-design/icons';
-import { Outlet, useNavigate, Link } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectCustomization,
@@ -53,6 +54,7 @@ const SIDER_COLLAPSED_WIDTH = 72;
 export const AppLayout: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { token } = theme.useToken();
   const { modal } = App.useApp();
 
@@ -67,8 +69,21 @@ export const AppLayout: React.FC = () => {
   const [isTablet, setIsTablet] = useState<boolean>(() => typeof window !== 'undefined' && window.innerWidth < 992);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(() => typeof window !== 'undefined' && window.innerWidth < 992);
-  const [selectedKey, setSelectedKey] = useState<string>('dashboard');
+  const [selectedKey, setSelectedKey] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      if (window.location.pathname === '/cards') return 'cards';
+    }
+    return 'dashboard';
+  });
   const [searchModalOpen, setSearchModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (location.pathname === '/cards') {
+      setSelectedKey('cards');
+    } else if (location.pathname === '/') {
+      setSelectedKey('dashboard');
+    }
+  }, [location.pathname]);
 
   // Global Keyboard Shortcut: Cmd+K / Ctrl+K to toggle Search Modal
   useEffect(() => {
@@ -131,6 +146,11 @@ export const AppLayout: React.FC = () => {
 
   const handleMenuSelect = (key: string) => {
     setSelectedKey(key);
+    if (key === 'dashboard') {
+      navigate('/');
+    } else if (key === 'cards') {
+      navigate('/cards');
+    }
     if (isMobile) {
       setMobileDrawerOpen(false);
     }
@@ -143,6 +163,12 @@ export const AppLayout: React.FC = () => {
       icon: <DashboardOutlined />,
       label: 'Dashboard',
       onClick: () => handleMenuSelect('dashboard'),
+    },
+    {
+      key: 'cards',
+      icon: <CreditCardOutlined />,
+      label: 'Cards',
+      onClick: () => handleMenuSelect('cards'),
     },
     {
       key: 'analytics',
@@ -180,6 +206,12 @@ export const AppLayout: React.FC = () => {
       icon: <DashboardOutlined />,
       label: 'Overview',
       onClick: () => handleMenuSelect('dashboard'),
+    },
+    {
+      key: 'cards',
+      icon: <CreditCardOutlined />,
+      label: 'Cards',
+      onClick: () => handleMenuSelect('cards'),
     },
     {
       key: 'sub-analytics',
@@ -619,6 +651,7 @@ export const AppLayout: React.FC = () => {
                 selectedKeys={[selectedKey]}
                 items={[
                   { key: 'dashboard', label: 'Dashboard', onClick: () => handleMenuSelect('dashboard') },
+                  { key: 'cards', label: 'Cards', onClick: () => handleMenuSelect('cards') },
                   { key: 'analytics', label: 'Analytics', onClick: () => handleMenuSelect('analytics') },
                   { key: 'security', label: 'Security', onClick: () => handleMenuSelect('security') },
                 ]}
