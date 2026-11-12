@@ -1421,3 +1421,16 @@ body.dark-mode .jwt-copy-btn:hover {
     font-size: 11.5px !important;
   }
 }
+
+/* ==========================================================================
+   Ghost Button Enhancements (Ensures clean contrast on dark/colored backgrounds)
+   ========================================================================== */
+.ant-btn.ant-btn-background-ghost.ant-btn-color-default {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.65) !important;
+}
+
+.ant-btn.ant-btn-background-ghost.ant-btn-color-default:not(:disabled):hover {
+  color: var(--primary-color, #1677ff) !important;
+  border-color: var(--primary-color, #1677ff) !important;
+}

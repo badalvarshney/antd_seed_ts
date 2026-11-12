@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Avatar, Button, Typography, Tag, Space, Divider, message, App } from 'antd';
+import { Card, Avatar, Typography, Tag, Space, Divider, message, App } from 'antd';
 import {
   UserOutlined,
   LogoutOutlined,
@@ -10,11 +10,18 @@ import {
   CopyOutlined,
   CheckOutlined,
   ExclamationCircleOutlined,
+  ArrowRightOutlined,
+  SaveOutlined,
+  DeleteOutlined,
+  WarningOutlined,
+  InfoCircleOutlined,
+  SyncOutlined,
 } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, selectAuthToken } from '../features/auth/authSelectors';
 import { logoutUser } from '../features/auth/authSlice';
 import { selectCustomization } from '../features/customization/customizationSlice';
+import { AppButton } from '../components/common/buttons';
 
 const { Title, Text } = Typography;
 
@@ -25,6 +32,7 @@ export const Dashboard: React.FC = () => {
   const token = useSelector(selectAuthToken);
   const { presetColor } = useSelector(selectCustomization);
   const [copied, setCopied] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
 
   const handleLogout = () => {
     modal.confirm({
@@ -58,6 +66,14 @@ export const Dashboard: React.FC = () => {
     }
   };
 
+  const handleTriggerLoadingDemo = () => {
+    setDemoLoading(true);
+    setTimeout(() => {
+      setDemoLoading(false);
+      message.success('Action simulated successfully!');
+    }, 2000);
+  };
+
   return (
     <div className="dashboard-page-container fade-in">
       <Card className="dashboard-main-card">
@@ -78,7 +94,7 @@ export const Dashboard: React.FC = () => {
               </Text>
             </div>
           </div>
-          <Button
+          <AppButton
             type="primary"
             danger
             icon={<LogoutOutlined />}
@@ -86,7 +102,7 @@ export const Dashboard: React.FC = () => {
             className="dashboard-signout-btn"
           >
             Sign Out
-          </Button>
+          </AppButton>
         </div>
 
         <Divider style={{ margin: '20px 0' }} />
@@ -143,7 +159,7 @@ export const Dashboard: React.FC = () => {
           <div className="jwt-token-box">
             <div className="jwt-token-code">{token || 'No active token found'}</div>
             {token && (
-              <Button
+              <AppButton
                 type="text"
                 size="small"
                 icon={copied ? <CheckOutlined style={{ color: '#52c41a' }} /> : <CopyOutlined style={{ color: presetColor }} />}
@@ -152,8 +168,103 @@ export const Dashboard: React.FC = () => {
                 style={{ color: copied ? '#52c41a' : presetColor }}
               >
                 {copied ? 'Copied!' : 'Copy'}
-              </Button>
+              </AppButton>
             )}
+          </div>
+        </Card>
+
+        {/* Master Reusable AppButton Showcase */}
+        <Card
+          type="inner"
+          title={
+            <Space size={6}>
+              <RocketOutlined style={{ color: presetColor }} />
+              <span style={{ fontWeight: 700 }}>Reusable AppButton Component Showcase</span>
+            </Space>
+          }
+          style={{ marginTop: 24, borderRadius: 12 }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {/* Status Variants */}
+            <div>
+              <Text strong style={{ display: 'block', marginBottom: 8, color: '#64748b', fontSize: 13 }}>
+                1. Status & Theme Variants
+              </Text>
+              <Space wrap size={[10, 10]}>
+                <AppButton status="primary">Primary Brand</AppButton>
+                <AppButton status="success" icon={<SaveOutlined />}>Success Action</AppButton>
+                <AppButton status="warning" icon={<WarningOutlined />}>Warning Alert</AppButton>
+                <AppButton status="danger" icon={<DeleteOutlined />}>Danger Destructive</AppButton>
+                <AppButton status="info" icon={<InfoCircleOutlined />}>Info Action</AppButton>
+                <AppButton status="default">Default Neutral</AppButton>
+              </Space>
+            </div>
+
+            {/* Icons & Loading States */}
+            <div>
+              <Text strong style={{ display: 'block', marginBottom: 8, color: '#64748b', fontSize: 13 }}>
+                2. Trailing Icon (endIcon) & Dynamic Loading
+              </Text>
+              <Space wrap size={[10, 10]}>
+                <AppButton
+                  endIcon={<ArrowRightOutlined />}
+                  onClick={() => message.info('Navigating to next step...')}
+                >
+                  Continue Next
+                </AppButton>
+                <AppButton
+                  loading={demoLoading}
+                  loadingText="Saving Data..."
+                  icon={<SyncOutlined />}
+                  onClick={handleTriggerLoadingDemo}
+                >
+                  Click To Load (2s)
+                </AppButton>
+              </Space>
+            </div>
+
+            {/* Built-in Tooltips & Popconfirm */}
+            <div>
+              <Text strong style={{ display: 'block', marginBottom: 8, color: '#64748b', fontSize: 13 }}>
+                3. Built-in Tooltip (Works on Disabled) & Built-in Popconfirm
+              </Text>
+              <Space wrap size={[10, 10]}>
+                <AppButton
+                  tooltip="Quick action tooltip shortcut"
+                  status="info"
+                  variant="outlined"
+                >
+                  Hover Me (Tooltip)
+                </AppButton>
+
+                <AppButton
+                  disabled
+                  tooltip="Disabled buttons still show tooltips seamlessly!"
+                >
+                  Disabled with Tooltip
+                </AppButton>
+
+                <AppButton
+                  status="danger"
+                  confirm="Are you sure you want to perform this irreversible action?"
+                  onClick={() => message.success('Action confirmed and executed!')}
+                >
+                  Click to Confirm (Popconfirm)
+                </AppButton>
+              </Space>
+            </div>
+
+            {/* Button Group */}
+            <div>
+              <Text strong style={{ display: 'block', marginBottom: 8, color: '#64748b', fontSize: 13 }}>
+                4. AppButton.Group
+              </Text>
+              <AppButton.Group>
+                <AppButton type="default">Weekly</AppButton>
+                <AppButton type="primary">Monthly</AppButton>
+                <AppButton type="default">Yearly</AppButton>
+              </AppButton.Group>
+            </div>
           </div>
         </Card>
 

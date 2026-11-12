@@ -22,6 +22,7 @@ import {
   SlidersOutlined,
   LogoutOutlined,
   ArrowRightOutlined,
+  AppstoreOutlined,
 } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCustomization, toggleDrawer } from '../../features/customization/customizationSlice';
@@ -42,7 +43,7 @@ export interface NavigationSearchItem {
   id: string;
   key: string;
   title: string;
-  category: 'Page' | 'Action';
+  category: 'Page' | 'Action' | 'Components';
   subtitle: string;
   icon: React.ReactNode;
   keywords: string[];
@@ -91,6 +92,15 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         subtitle: 'Main system overview, JWT session details & summary cards',
         icon: <DashboardOutlined />,
         keywords: ['dashboard', 'home', 'overview', 'main', 'jwt', 'stats'],
+      },
+      {
+        id: 'nav-buttons',
+        key: 'buttons',
+        title: 'Buttons',
+        category: 'Components',
+        subtitle: 'AppButton showcase, variants, loading states & interactive playground',
+        icon: <AppstoreOutlined />,
+        keywords: ['buttons', 'button', 'appbutton', 'loading', 'popconfirm', 'status', 'variants'],
       },
       {
         id: 'nav-analytics',

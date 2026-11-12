@@ -28,6 +28,8 @@ export const themeConfig: ThemeConfig = {
       borderRadius: 10,
       fontWeight: 600,
       controlHeight: 46,
+      defaultGhostColor: '#ffffff',
+      defaultGhostBorderColor: 'rgba(255, 255, 255, 0.65)',
     },
     Input: {
       borderRadius: 10,
