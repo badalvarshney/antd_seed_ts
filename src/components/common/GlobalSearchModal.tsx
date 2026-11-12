@@ -24,6 +24,7 @@ import {
   ArrowRightOutlined,
   AppstoreOutlined,
   IdcardOutlined,
+  EditOutlined,
 } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCustomization, toggleDrawer } from '../../features/customization/customizationSlice';
@@ -44,7 +45,7 @@ export interface NavigationSearchItem {
   id: string;
   key: string;
   title: string;
-  category: 'Page' | 'Action' | 'Components';
+  category: 'Page' | 'Action';
   subtitle: string;
   icon: React.ReactNode;
   keywords: string[];
@@ -97,20 +98,29 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
       {
         id: 'nav-buttons',
         key: 'buttons',
-        title: 'Buttons',
-        category: 'Components',
-        subtitle: 'AppButton showcase, variants, loading states & interactive playground',
+        title: 'Button Components',
+        category: 'Page',
+        subtitle: 'Ant Design & AppButton catalog with all styles, sizes, and interactive features',
         icon: <AppstoreOutlined />,
-        keywords: ['buttons', 'button', 'appbutton', 'loading', 'popconfirm', 'status', 'variants'],
+        keywords: ['buttons', 'button', 'ui', 'components', 'popconfirm', 'tooltip', 'loading'],
       },
       {
         id: 'nav-cards',
         key: 'cards',
-        title: 'Cards',
-        category: 'Components',
-        subtitle: 'AppCard showcase, elevation presets, ribbons, collapsibles & KPI metrics',
+        title: 'Card Components',
+        category: 'Page',
+        subtitle: 'Ant Design & AppCard catalog: elevation, ribbons, tabs, grids, covers, and collapsibles',
         icon: <IdcardOutlined />,
-        keywords: ['cards', 'card', 'appcard', 'elevation', 'ribbon', 'collapsible', 'kpi', 'dashboard'],
+        keywords: ['cards', 'card', 'appcard', 'ribbon', 'collapsible', 'grid', 'meta', 'tabs'],
+      },
+      {
+        id: 'nav-inputs',
+        key: 'inputs',
+        title: 'Input & Form Fields',
+        category: 'Page',
+        subtitle: 'Ant Design & AppInput: variants, sizes, password strength, OTP, search, and Formik validation',
+        icon: <EditOutlined />,
+        keywords: ['inputs', 'input', 'appinput', 'form', 'text', 'password', 'otp', 'search', 'textarea', 'validation'],
       },
       {
         id: 'nav-analytics',

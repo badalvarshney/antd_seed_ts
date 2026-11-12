@@ -8,8 +8,9 @@ import ForgotPassword from '../pages/auth/ForgotPassword';
 import ResetPassword from '../pages/auth/ResetPassword';
 import VerifyEmail from '../pages/auth/VerifyEmail';
 import Dashboard from '../pages/Dashboard';
-import { ButtonsPage } from '../pages/ButtonsPage';
-import { CardsPage } from '../pages/CardsPage';
+import ButtonsPage from '../pages/ButtonsPage';
+import CardsPage from '../pages/CardsPage';
+import InputsPage from '../pages/InputsPage';
 import ProtectedRoute from '../components/common/ProtectedRoute';
 import PublicRoute from '../components/common/PublicRoute';
 
@@ -44,6 +45,7 @@ export const AppRoutes: React.FC = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/buttons" element={<ButtonsPage />} />
         <Route path="/cards" element={<CardsPage />} />
+        <Route path="/inputs" element={<InputsPage />} />
       </Route>
 
       {/* Fallback Catch-all Route */}

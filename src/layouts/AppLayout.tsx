@@ -26,6 +26,7 @@ import {
   BarChartOutlined,
   AppstoreOutlined,
   IdcardOutlined,
+  EditOutlined,
   SlidersOutlined,
   CheckOutlined,
   CloseOutlined,
@@ -54,6 +55,7 @@ const SIDER_COLLAPSED_WIDTH = 72;
 export const AppLayout: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { token } = theme.useToken();
   const { modal } = App.useApp();
 
@@ -72,6 +74,7 @@ export const AppLayout: React.FC = () => {
     if (typeof window !== 'undefined') {
       if (window.location.pathname === '/buttons') return 'buttons';
       if (window.location.pathname === '/cards') return 'cards';
+      if (window.location.pathname === '/inputs') return 'inputs';
     }
     return 'dashboard';
   });
@@ -82,6 +85,8 @@ export const AppLayout: React.FC = () => {
       setSelectedKey('buttons');
     } else if (location.pathname === '/cards') {
       setSelectedKey('cards');
+    } else if (location.pathname === '/inputs') {
+      setSelectedKey('inputs');
     } else if (location.pathname === '/') {
       setSelectedKey('dashboard');
     }
@@ -154,6 +159,8 @@ export const AppLayout: React.FC = () => {
       navigate('/buttons');
     } else if (key === 'cards') {
       navigate('/cards');
+    } else if (key === 'inputs') {
+      navigate('/inputs');
     }
     if (isMobile) {
       setMobileDrawerOpen(false);
@@ -179,6 +186,12 @@ export const AppLayout: React.FC = () => {
       icon: <IdcardOutlined />,
       label: 'Cards',
       onClick: () => handleMenuSelect('cards'),
+    },
+    {
+      key: 'inputs',
+      icon: <EditOutlined />,
+      label: 'Inputs',
+      onClick: () => handleMenuSelect('inputs'),
     },
     {
       key: 'analytics',
@@ -228,6 +241,12 @@ export const AppLayout: React.FC = () => {
       icon: <IdcardOutlined />,
       label: 'Cards',
       onClick: () => handleMenuSelect('cards'),
+    },
+    {
+      key: 'inputs',
+      icon: <EditOutlined />,
+      label: 'Inputs',
+      onClick: () => handleMenuSelect('inputs'),
     },
     {
       key: 'sub-analytics',
@@ -669,6 +688,7 @@ export const AppLayout: React.FC = () => {
                   { key: 'dashboard', label: 'Dashboard', onClick: () => handleMenuSelect('dashboard') },
                   { key: 'buttons', label: 'Buttons', onClick: () => handleMenuSelect('buttons') },
                   { key: 'cards', label: 'Cards', onClick: () => handleMenuSelect('cards') },
+                  { key: 'inputs', label: 'Inputs', onClick: () => handleMenuSelect('inputs') },
                   { key: 'analytics', label: 'Analytics', onClick: () => handleMenuSelect('analytics') },
                   { key: 'security', label: 'Security', onClick: () => handleMenuSelect('security') },
                 ]}

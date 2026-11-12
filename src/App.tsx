@@ -130,6 +130,8 @@ const MainAppContent: React.FC = () => {
         controlHeight: inputControlHeight,
         controlHeightLG: inputControlHeight,
         controlHeightSM: inputControlHeight,
+        defaultGhostColor: '#ffffff',
+        defaultGhostBorderColor: 'rgba(255, 255, 255, 0.65)',
       },
       Input: {
         borderRadius: inputBorderRadius,
