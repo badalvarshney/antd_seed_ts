@@ -25,6 +25,7 @@ import {
   SafetyCertificateOutlined,
   BarChartOutlined,
   AppstoreOutlined,
+  IdcardOutlined,
   SlidersOutlined,
   CheckOutlined,
   CloseOutlined,
@@ -70,6 +71,7 @@ export const AppLayout: React.FC = () => {
   const [selectedKey, setSelectedKey] = useState<string>(() => {
     if (typeof window !== 'undefined') {
       if (window.location.pathname === '/buttons') return 'buttons';
+      if (window.location.pathname === '/cards') return 'cards';
     }
     return 'dashboard';
   });
@@ -78,6 +80,8 @@ export const AppLayout: React.FC = () => {
   useEffect(() => {
     if (location.pathname === '/buttons') {
       setSelectedKey('buttons');
+    } else if (location.pathname === '/cards') {
+      setSelectedKey('cards');
     } else if (location.pathname === '/') {
       setSelectedKey('dashboard');
     }
@@ -148,6 +152,8 @@ export const AppLayout: React.FC = () => {
       navigate('/');
     } else if (key === 'buttons') {
       navigate('/buttons');
+    } else if (key === 'cards') {
+      navigate('/cards');
     }
     if (isMobile) {
       setMobileDrawerOpen(false);
@@ -167,6 +173,12 @@ export const AppLayout: React.FC = () => {
       icon: <AppstoreOutlined />,
       label: 'Buttons',
       onClick: () => handleMenuSelect('buttons'),
+    },
+    {
+      key: 'cards',
+      icon: <IdcardOutlined />,
+      label: 'Cards',
+      onClick: () => handleMenuSelect('cards'),
     },
     {
       key: 'analytics',
@@ -210,6 +222,12 @@ export const AppLayout: React.FC = () => {
       icon: <AppstoreOutlined />,
       label: 'Buttons',
       onClick: () => handleMenuSelect('buttons'),
+    },
+    {
+      key: 'cards',
+      icon: <IdcardOutlined />,
+      label: 'Cards',
+      onClick: () => handleMenuSelect('cards'),
     },
     {
       key: 'sub-analytics',
@@ -650,6 +668,7 @@ export const AppLayout: React.FC = () => {
                 items={[
                   { key: 'dashboard', label: 'Dashboard', onClick: () => handleMenuSelect('dashboard') },
                   { key: 'buttons', label: 'Buttons', onClick: () => handleMenuSelect('buttons') },
+                  { key: 'cards', label: 'Cards', onClick: () => handleMenuSelect('cards') },
                   { key: 'analytics', label: 'Analytics', onClick: () => handleMenuSelect('analytics') },
                   { key: 'security', label: 'Security', onClick: () => handleMenuSelect('security') },
                 ]}

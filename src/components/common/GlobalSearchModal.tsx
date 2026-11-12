@@ -23,6 +23,7 @@ import {
   LogoutOutlined,
   ArrowRightOutlined,
   AppstoreOutlined,
+  IdcardOutlined,
 } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCustomization, toggleDrawer } from '../../features/customization/customizationSlice';
@@ -101,6 +102,15 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         subtitle: 'AppButton showcase, variants, loading states & interactive playground',
         icon: <AppstoreOutlined />,
         keywords: ['buttons', 'button', 'appbutton', 'loading', 'popconfirm', 'status', 'variants'],
+      },
+      {
+        id: 'nav-cards',
+        key: 'cards',
+        title: 'Cards',
+        category: 'Components',
+        subtitle: 'AppCard showcase, elevation presets, ribbons, collapsibles & KPI metrics',
+        icon: <IdcardOutlined />,
+        keywords: ['cards', 'card', 'appcard', 'elevation', 'ribbon', 'collapsible', 'kpi', 'dashboard'],
       },
       {
         id: 'nav-analytics',
