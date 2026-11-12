@@ -22,6 +22,7 @@ import {
   SlidersOutlined,
   LogoutOutlined,
   ArrowRightOutlined,
+  EditOutlined,
 } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCustomization, toggleDrawer } from '../../features/customization/customizationSlice';
@@ -42,7 +43,7 @@ export interface NavigationSearchItem {
   id: string;
   key: string;
   title: string;
-  category: 'Page' | 'Action';
+  category: 'Page' | 'Action' | 'Components';
   subtitle: string;
   icon: React.ReactNode;
   keywords: string[];
@@ -91,6 +92,15 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         subtitle: 'Main system overview, JWT session details & summary cards',
         icon: <DashboardOutlined />,
         keywords: ['dashboard', 'home', 'overview', 'main', 'jwt', 'stats'],
+      },
+      {
+        id: 'nav-inputs',
+        key: 'inputs',
+        title: 'Inputs & Form Fields',
+        category: 'Components',
+        subtitle: 'AppInput, password strength, OTP 2FA, addons & Formik validation',
+        icon: <EditOutlined />,
+        keywords: ['inputs', 'input', 'appinput', 'form', 'text', 'password', 'otp', 'search', 'textarea', 'validation'],
       },
       {
         id: 'nav-analytics',

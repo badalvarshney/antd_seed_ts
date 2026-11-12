@@ -219,8 +219,10 @@
   color: #673ab7 !important;
 }
 
-/* Ant Design OTP Input Custom Styling */
-.ant-otp {
+/* Ant Design OTP Input Custom Styling in Auth Screens */
+.auth-layout-container .ant-otp,
+.auth-form-card .ant-otp,
+.auth-minimal-card .ant-otp {
   display: flex !important;
   width: 100% !important;
   max-width: 100% !important;

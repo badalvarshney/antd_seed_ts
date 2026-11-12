@@ -1,3 +1,6 @@
+export { AppInput, default as AppInputDefault } from './AppInput';
+export type { AppInputProps, AppInputComponent } from './AppInput';
+
 export { default as FormikTextInput } from './FormikTextInput';
 export type { FormikTextInputProps } from './FormikTextInput';
 
