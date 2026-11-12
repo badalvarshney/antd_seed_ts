@@ -1268,6 +1268,7 @@ export const CardsPage: React.FC = () => {
                         fullWidth
                         type="default"
                         icon={<LockOutlined />}
+                        style={{ color: 'var(--ant-color-text, #1e293b)' }}
                         onClick={() => message.info('Card locked safely')}
                       >
                         Lock Card
