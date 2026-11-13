@@ -31,3 +31,5 @@ export const setUser = <T = unknown>(user: T | null | undefined): void => {
 export const removeUser = (): void => {
   localStorage.removeItem('auth_user');
 };
+
+export * from './scroll';

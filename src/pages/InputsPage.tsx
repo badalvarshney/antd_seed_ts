@@ -66,6 +66,7 @@ import { selectCustomization } from '../features/customization/customizationSlic
 import { AppInput, FileInput, SelectInput } from '../components/common/inputs';
 import type { AppUploadedFile } from '../components/common/inputs';
 import { PasswordStrengthBar, AppPageHeader } from '../components/common';
+import { scrollToTop } from '../utils';
 
 const { Text, Paragraph } = Typography;
 const { Option } = Select;
@@ -184,8 +185,12 @@ export const InputsPage: React.FC = () => {
     setTimeout(() => setIsCopiedKey(false), 2000);
   };
 
+  const handleBackToTop = () => {
+    scrollToTop(true);
+  };
+
   return (
-    <div style={{ maxWidth: 1280, margin: '0 auto', paddingBottom: 40 }}>
+    <div id="page-top" style={{ maxWidth: 1280, margin: '0 auto', paddingBottom: 40 }}>
       {/* Unified Page Header */}
       <AppPageHeader
         icon={<EditOutlined />}
@@ -1302,7 +1307,7 @@ export const InputsPage: React.FC = () => {
                     size="small"
                     type="text"
                     icon={<ArrowUpOutlined />}
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    onClick={handleBackToTop}
                   >
                     Back to Top
                   </Button>

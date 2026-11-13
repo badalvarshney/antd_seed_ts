@@ -12,6 +12,7 @@ import {
   Tooltip,
   App,
   theme,
+  FloatButton,
   type MenuProps,
 } from 'antd';
 import {
@@ -440,6 +441,16 @@ export const AppLayout: React.FC = () => {
     </Footer>
   );
 
+  // Reusable Floating Back to Top Button
+  const renderBackTop = () => (
+    <FloatButton.BackTop
+      target={() => (document.querySelector('.app-content-scroll-container') as HTMLElement) || window}
+      visibilityHeight={200}
+      tooltip="Back to Top"
+      style={{ right: 28, bottom: 28 }}
+    />
+  );
+
   // Mobile Navigation Drawer (Provides smooth off-canvas menu for all layouts on mobile)
   const renderMobileDrawer = () => (
     <Drawer
@@ -601,6 +612,7 @@ export const AppLayout: React.FC = () => {
             </Content>
 
             {renderFooter()}
+            {renderBackTop()}
           </div>
         </Layout>
       </Layout>
@@ -691,6 +703,7 @@ export const AppLayout: React.FC = () => {
               <Outlet />
             </Content>
             {renderFooter()}
+            {renderBackTop()}
           </div>
         </Layout>
       </Layout>
@@ -756,6 +769,7 @@ export const AppLayout: React.FC = () => {
           </Content>
 
           {renderFooter()}
+          {renderBackTop()}
         </div>
       </Layout>
     );
@@ -850,6 +864,7 @@ export const AppLayout: React.FC = () => {
           </Content>
 
           {renderFooter()}
+          {renderBackTop()}
         </div>
       </Layout>
     </Layout>
