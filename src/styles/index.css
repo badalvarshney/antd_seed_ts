@@ -344,9 +344,9 @@ body.dark-mode .ant-form-item-label>label {
   color: #e2e8f0 !important;
 }
 
-/* Base Single-Line Input Radius & Height (Exclude Textareas & OTP) */
+/* Base Single-Line Input Radius & Height (Exclude Textareas, OTP, File, Color, Range) */
 .ant-input-affix-wrapper:not(:has(textarea)):not(.ant-input-affix-wrapper-textarea-with-clear-btn):not(.ant-input-textarea-affix-wrapper),
-input.ant-input:not(.ant-input-affix-wrapper *):not(.ant-otp-input) {
+input.ant-input:not(.ant-input-affix-wrapper *):not(.ant-otp-input):not([type="file"]):not([type="color"]):not([type="range"]) {
   border-radius: var(--input-border-radius, 10px) !important;
   height: var(--input-height, 40px) !important;
   padding-top: 0 !important;
@@ -355,6 +355,61 @@ input.ant-input:not(.ant-input-affix-wrapper *):not(.ant-otp-input) {
   align-items: center !important;
   box-sizing: border-box !important;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Ant Design InputNumber & DatePicker uniform height & radius */
+.ant-input-number {
+  border-radius: var(--input-border-radius, 10px) !important;
+  min-height: var(--input-height, 40px) !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.ant-input-number-input-wrap {
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ant-picker {
+  border-radius: var(--input-border-radius, 10px) !important;
+  height: var(--input-height, 40px) !important;
+  box-sizing: border-box !important;
+}
+
+/* AppInput File Dragger Styling */
+.app-file-dragger {
+  border: 2px dashed var(--ant-color-border, #cbd5e1);
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+  background: var(--ant-color-bg-container, #ffffff);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.app-file-dragger:hover,
+.app-file-dragger.drag-over {
+  border-color: var(--primary-color, #1677ff) !important;
+  background: rgba(22, 119, 255, 0.04) !important;
+}
+
+.app-file-preview-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--ant-color-border-secondary, #e2e8f0);
+  background: var(--ant-color-bg-layout, #f8fafc);
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+body.dark-mode .app-file-preview-card {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Base Textarea & Textarea Affix-Wrapper Rules (Prevent Squashing & Overflow) */
