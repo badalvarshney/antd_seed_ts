@@ -12,6 +12,7 @@ import {
   Tooltip,
   App,
   theme,
+  FloatButton,
   type MenuProps,
 } from 'antd';
 import {
@@ -25,13 +26,12 @@ import {
   SafetyCertificateOutlined,
   BarChartOutlined,
   AppstoreOutlined,
-  IdcardOutlined,
-  EditOutlined,
   SlidersOutlined,
   CheckOutlined,
   CloseOutlined,
   SearchOutlined,
   ExclamationCircleOutlined,
+  EditOutlined,
 } from '@ant-design/icons';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -72,8 +72,6 @@ export const AppLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState<boolean>(() => typeof window !== 'undefined' && window.innerWidth < 992);
   const [selectedKey, setSelectedKey] = useState<string>(() => {
     if (typeof window !== 'undefined') {
-      if (window.location.pathname === '/buttons') return 'buttons';
-      if (window.location.pathname === '/cards') return 'cards';
       if (window.location.pathname === '/inputs') return 'inputs';
     }
     return 'dashboard';
@@ -81,11 +79,7 @@ export const AppLayout: React.FC = () => {
   const [searchModalOpen, setSearchModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (location.pathname === '/buttons') {
-      setSelectedKey('buttons');
-    } else if (location.pathname === '/cards') {
-      setSelectedKey('cards');
-    } else if (location.pathname === '/inputs') {
+    if (location.pathname === '/inputs') {
       setSelectedKey('inputs');
     } else if (location.pathname === '/') {
       setSelectedKey('dashboard');
@@ -155,10 +149,6 @@ export const AppLayout: React.FC = () => {
     setSelectedKey(key);
     if (key === 'dashboard') {
       navigate('/');
-    } else if (key === 'buttons') {
-      navigate('/buttons');
-    } else if (key === 'cards') {
-      navigate('/cards');
     } else if (key === 'inputs') {
       navigate('/inputs');
     }
@@ -174,18 +164,6 @@ export const AppLayout: React.FC = () => {
       icon: <DashboardOutlined />,
       label: 'Dashboard',
       onClick: () => handleMenuSelect('dashboard'),
-    },
-    {
-      key: 'buttons',
-      icon: <AppstoreOutlined />,
-      label: 'Buttons',
-      onClick: () => handleMenuSelect('buttons'),
-    },
-    {
-      key: 'cards',
-      icon: <IdcardOutlined />,
-      label: 'Cards',
-      onClick: () => handleMenuSelect('cards'),
     },
     {
       key: 'inputs',
@@ -229,18 +207,6 @@ export const AppLayout: React.FC = () => {
       icon: <DashboardOutlined />,
       label: 'Overview',
       onClick: () => handleMenuSelect('dashboard'),
-    },
-    {
-      key: 'buttons',
-      icon: <AppstoreOutlined />,
-      label: 'Buttons',
-      onClick: () => handleMenuSelect('buttons'),
-    },
-    {
-      key: 'cards',
-      icon: <IdcardOutlined />,
-      label: 'Cards',
-      onClick: () => handleMenuSelect('cards'),
     },
     {
       key: 'inputs',
@@ -475,6 +441,16 @@ export const AppLayout: React.FC = () => {
     </Footer>
   );
 
+  // Reusable Floating Back to Top Button
+  const renderBackTop = () => (
+    <FloatButton.BackTop
+      target={() => (document.querySelector('.app-content-scroll-container') as HTMLElement) || window}
+      visibilityHeight={200}
+      tooltip="Back to Top"
+      style={{ right: 28, bottom: 28 }}
+    />
+  );
+
   // Mobile Navigation Drawer (Provides smooth off-canvas menu for all layouts on mobile)
   const renderMobileDrawer = () => (
     <Drawer
@@ -636,6 +612,7 @@ export const AppLayout: React.FC = () => {
             </Content>
 
             {renderFooter()}
+            {renderBackTop()}
           </div>
         </Layout>
       </Layout>
@@ -686,8 +663,6 @@ export const AppLayout: React.FC = () => {
                 selectedKeys={[selectedKey]}
                 items={[
                   { key: 'dashboard', label: 'Dashboard', onClick: () => handleMenuSelect('dashboard') },
-                  { key: 'buttons', label: 'Buttons', onClick: () => handleMenuSelect('buttons') },
-                  { key: 'cards', label: 'Cards', onClick: () => handleMenuSelect('cards') },
                   { key: 'inputs', label: 'Inputs', onClick: () => handleMenuSelect('inputs') },
                   { key: 'analytics', label: 'Analytics', onClick: () => handleMenuSelect('analytics') },
                   { key: 'security', label: 'Security', onClick: () => handleMenuSelect('security') },
@@ -728,6 +703,7 @@ export const AppLayout: React.FC = () => {
               <Outlet />
             </Content>
             {renderFooter()}
+            {renderBackTop()}
           </div>
         </Layout>
       </Layout>
@@ -793,6 +769,7 @@ export const AppLayout: React.FC = () => {
           </Content>
 
           {renderFooter()}
+          {renderBackTop()}
         </div>
       </Layout>
     );
@@ -887,6 +864,7 @@ export const AppLayout: React.FC = () => {
           </Content>
 
           {renderFooter()}
+          {renderBackTop()}
         </div>
       </Layout>
     </Layout>

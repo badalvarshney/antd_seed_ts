@@ -59,6 +59,7 @@ import { AppCard } from '../components/common/cards';
 import type { AppCardElevation } from '../components/common/cards';
 import { AppButton } from '../components/common/buttons';
 import { AppPageHeader } from '../components/common/pageHeader';
+import { scrollToTop } from '../utils';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -1388,7 +1389,7 @@ export const CardsPage: React.FC = () => {
                     size="small"
                     type="text"
                     icon={<ArrowUpOutlined />}
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    onClick={() => scrollToTop()}
                   >
                     Back to Top
                   </AppButton>
