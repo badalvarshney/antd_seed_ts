@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   Card,
+  Button,
   Row,
   Col,
   Space,
@@ -14,6 +15,7 @@ import {
   message,
   Avatar,
   Badge,
+  Slider,
 } from 'antd';
 import {
   EditOutlined,
@@ -27,6 +29,7 @@ import {
   DollarOutlined,
   SearchOutlined,
   CheckCircleFilled,
+  CloseCircleOutlined,
   KeyOutlined,
   SafetyCertificateOutlined,
   SettingOutlined,
@@ -40,14 +43,25 @@ import {
   ApiOutlined,
   CheckCircleOutlined,
   ArrowUpOutlined,
+  PhoneOutlined,
+  UploadOutlined,
+  InboxOutlined,
+  FileOutlined,
+  FilePdfOutlined,
+  FileImageOutlined,
+  DeleteOutlined,
+  BgColorsOutlined,
+  CalendarOutlined,
+  ClockCircleOutlined,
+  NumberOutlined,
+  SlidersOutlined,
 } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { selectCustomization } from '../features/customization/customizationSlice';
 import { AppInput } from '../components/common/inputs';
-import { AppButton } from '../components/common/buttons';
-import { AppCard } from '../components/common/cards';
+import type { AppUploadedFile } from '../components/common/inputs';
 import { PasswordStrengthBar, AppPageHeader } from '../components/common';
 
 const { Text, Paragraph } = Typography;
@@ -76,6 +90,36 @@ export const InputsPage: React.FC = () => {
   const [passwordValue, setPasswordValue] = useState<string>('AntdSecurePass!2026');
   const [otpValue, setOtpValue] = useState<string>('842915');
   const [isCopiedKey, setIsCopiedKey] = useState<boolean>(false);
+
+  // New Specialized Input Demo States
+  const [emailLiveValue, setEmailLiveValue] = useState<string>('alexander.smith@enterprise.io');
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+  const [phoneLiveNumber, setPhoneLiveNumber] = useState<string>('98765 43210');
+  const [phoneLiveCode, setPhoneLiveCode] = useState<string>('+91');
+  const [colorLiveValue, setColorLiveValue] = useState<string>('#1677ff');
+  const [numberLiveValue, setNumberLiveValue] = useState<number | null>(4);
+  const [rangeLiveValue, setRangeLiveValue] = useState<number>(65);
+  const [charCountValue, setCharCountValue] = useState<string>('Ant Design enterprise forms with strict validation and responsive design tokens.');
+  const [demoUploadedFiles, setDemoUploadedFiles] = useState<AppUploadedFile[]>([
+    {
+      id: 'demo-file-1',
+      name: 'SOC2_Security_Compliance_Report_2026.pdf',
+      size: 3355443,
+      type: 'application/pdf',
+      formattedSize: '3.2 MB',
+      status: 'done',
+      progress: 100,
+    },
+    {
+      id: 'demo-file-2',
+      name: 'System_Architecture_Diagram.png',
+      size: 1468006,
+      type: 'image/png',
+      formattedSize: '1.4 MB',
+      status: 'done',
+      progress: 100,
+    },
+  ]);
 
   // Formik Demo Form
   const formik = useFormik({
@@ -138,16 +182,19 @@ export const InputsPage: React.FC = () => {
       <AppPageHeader
         icon={<EditOutlined />}
         title="Input & Form Field Showcase"
-        description="Comprehensive catalog of Ant Design form controls and the master AppInput component supporting built-in labels, validation helpers, password entropy meter, OTP verification, and custom addons."
+        description="Comprehensive catalog of Ant Design form primitives and custom AppInput controls supporting file upload & dragzones, international phone masking, strict RFC email validation, HTML5 specialized data types (Color, Number, Date, Time), character limit counters, and Formik validation."
         tags={
           <>
             <Tag color={presetColor}>Ant Design 6</Tag>
             <Tag color="cyan">AppInput Master</Tag>
+            <Tag color="blue">File & Upload</Tag>
+            <Tag color="green">Strict Email & Phone</Tag>
+            <Tag color="magenta">Color & Number Stepper</Tag>
             <Tag color="purple">TypeScript Safe</Tag>
           </>
         }
         extra={
-          <AppButton
+          <Button
             type="primary"
             icon={<CodeOutlined />}
             onClick={() => {
@@ -156,14 +203,14 @@ export const InputsPage: React.FC = () => {
             }}
           >
             Interactive Playground
-          </AppButton>
+          </Button>
         }
       />
 
       <Row gutter={[20, 20]}>
         {/* 1. Core Visual Variants */}
         <Col xs={24} lg={12}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <AppstoreOutlined style={{ color: presetColor }} />
@@ -214,12 +261,12 @@ export const InputsPage: React.FC = () => {
                 helperText="Non-editable field with dimmed contrast and blocked interaction."
               />
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 2. Sizing & Density */}
         <Col xs={24} lg={12}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <ThunderboltOutlined style={{ color: presetColor }} />
@@ -271,12 +318,12 @@ export const InputsPage: React.FC = () => {
                 />
               </div>
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 3. Search & Command Inputs */}
         <Col xs={24} lg={12}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <SearchOutlined style={{ color: presetColor }} />
@@ -300,7 +347,7 @@ export const InputsPage: React.FC = () => {
               <AppInput.Search
                 size="large"
                 placeholder="Large command palette query..."
-                enterButton={<AppButton type="primary" size="large" icon={<SearchOutlined />}>Query</AppButton>}
+                enterButton={<Button type="primary" size="large" icon={<SearchOutlined />}>Query</Button>}
                 onSearch={handleSearchSubmit}
               />
               <div>
@@ -313,12 +360,12 @@ export const InputsPage: React.FC = () => {
                 </Space>
               </div>
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 4. Prefix & Suffix Adornments */}
         <Col xs={24} lg={12}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <LinkOutlined style={{ color: presetColor }} />
@@ -368,12 +415,12 @@ export const InputsPage: React.FC = () => {
                 helperText="Animated loading spinner indicates asynchronous validation in progress..."
               />
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 5. Prepend & Append Addons */}
         <Col xs={24} lg={12}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <SettingOutlined style={{ color: presetColor }} />
@@ -419,7 +466,7 @@ export const InputsPage: React.FC = () => {
                   </Select>
                 }
                 defaultValue="12,500.00"
-                addonAfter={<AppButton size="small" type="link">Auto Convert</AppButton>}
+                addonAfter={<Button size="small" type="link">Auto Convert</Button>}
               />
 
               <AppInput
@@ -427,23 +474,23 @@ export const InputsPage: React.FC = () => {
                 defaultValue="https://app.domain.com/join?token=SEC_DEV_2026"
                 readOnly
                 addonAfter={
-                  <AppButton
+                  <Button
                     size="small"
                     type="primary"
                     icon={<CopyOutlined />}
                     onClick={() => message.success('Invite link copied to clipboard!')}
                   >
                     Copy
-                  </AppButton>
+                  </Button>
                 }
               />
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 6. Password & Credentials Security */}
         <Col xs={24} lg={12}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <SafetyOutlined style={{ color: presetColor }} />
@@ -496,12 +543,12 @@ export const InputsPage: React.FC = () => {
                 helperText="Password visibility toggle disabled according to enterprise compliance policy."
               />
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 7. 2FA OTP & Token Verification */}
         <Col xs={24} lg={12}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <KeyOutlined style={{ color: presetColor }} />
@@ -533,9 +580,9 @@ export const InputsPage: React.FC = () => {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
                   <Text type="secondary" style={{ fontSize: 12 }}>Didn't receive code?</Text>
-                  <AppButton size="small" type="link" onClick={() => message.info('New verification code sent!')}>
+                  <Button size="small" type="link" onClick={() => message.info('New verification code sent!')}>
                     Resend Code (42s)
-                  </AppButton>
+                  </Button>
                 </div>
               </div>
 
@@ -559,13 +606,13 @@ export const InputsPage: React.FC = () => {
                 </div>
               </div>
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 8. Contextual Form: User Profile Settings */}
         <Col xs={24} lg={12}>
-          <AppCard
-            elevation="medium"
+          <Card
+            
             hoverable
             title={
               <Space>
@@ -616,18 +663,18 @@ export const InputsPage: React.FC = () => {
               </Col>
             </Row>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 16 }}>
-              <AppButton type="default" size="middle">Cancel</AppButton>
-              <AppButton type="primary" size="middle" onClick={() => message.success('Profile changes saved!')}>
+              <Button type="default" size="middle">Cancel</Button>
+              <Button type="primary" size="middle" onClick={() => message.success('Profile changes saved!')}>
                 Save Changes
-              </AppButton>
+              </Button>
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 9. Contextual Form: Billing & Payment Checkout */}
         <Col xs={24} lg={12}>
-          <AppCard
-            elevation="medium"
+          <Card
+            
             hoverable
             title={
               <Space>
@@ -681,8 +728,8 @@ export const InputsPage: React.FC = () => {
                 </Col>
               </Row>
 
-              <AppButton
-                fullWidth
+              <Button
+                block
                 type="primary"
                 size="large"
                 icon={<SafetyCertificateOutlined />}
@@ -690,14 +737,14 @@ export const InputsPage: React.FC = () => {
                 style={{ marginTop: 4 }}
               >
                 Pay $149.00 Securely
-              </AppButton>
+              </Button>
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 10. Developer API Key & Webhook Management */}
         <Col xs={24}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <ApiOutlined style={{ color: presetColor }} />
@@ -713,14 +760,14 @@ export const InputsPage: React.FC = () => {
                   prefix={<KeyOutlined style={{ color: '#f59e0b' }} />}
                   readOnly
                   addonAfter={
-                    <AppButton
+                    <Button
                       size="small"
                       type="primary"
                       icon={isCopiedKey ? <CheckOutlined /> : <CopyOutlined />}
                       onClick={handleCopyApiKey}
                     >
                       {isCopiedKey ? 'Copied' : 'Copy'}
-                    </AppButton>
+                    </Button>
                   }
                   helperText="Never share this key in client-side code or public repositories."
                 />
@@ -732,25 +779,25 @@ export const InputsPage: React.FC = () => {
                   addonBefore="https://"
                   defaultValue="api.acme-corp.com/v1/webhooks/stripe-events"
                   addonAfter={
-                    <AppButton
+                    <Button
                       size="small"
                       type="default"
                       icon={<ReloadOutlined />}
                       onClick={() => message.info('Ping dispatched! Response status: 200 OK')}
                     >
                       Test Ping
-                    </AppButton>
+                    </Button>
                   }
                   helperText="Receives real-time asynchronous HTTP POST event notifications."
                 />
               </Col>
             </Row>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 11. Live Formik Validation Form */}
         <Col xs={24} lg={12}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <SendOutlined style={{ color: presetColor }} />
@@ -807,20 +854,20 @@ export const InputsPage: React.FC = () => {
               </div>
 
               <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
-                <AppButton type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit">
                   Submit Formik Form
-                </AppButton>
-                <AppButton type="default" onClick={() => formik.resetForm()}>
+                </Button>
+                <Button type="default" onClick={() => formik.resetForm()}>
                   Reset
-                </AppButton>
+                </Button>
               </div>
             </form>
-          </AppCard>
+          </Card>
         </Col>
 
         {/* 12. Semantic Validation States & Helpers */}
         <Col xs={24} lg={12}>
-          <AppCard
+          <Card
             title={
               <Space>
                 <CheckCircleOutlined style={{ color: presetColor }} />
@@ -855,20 +902,308 @@ export const InputsPage: React.FC = () => {
                 helperText="This temporary token contains special symbols and expires in 48 hours."
               />
             </div>
-          </AppCard>
+          </Card>
         </Col>
 
-        {/* 13. Interactive Playground & Code Generator */}
+        {/* 13. Strict Email Verification & Domain Auto-Complete */}
+        <Col xs={24} lg={12}>
+          <Card
+            title={
+              <Space>
+                <MailOutlined style={{ color: presetColor }} />
+                <span>13. Strict Email Verification & Domain Auto-Complete</span>
+              </Space>
+            }
+            style={{ height: '100%' }}
+          >
+            <Paragraph type="secondary" style={{ fontSize: 13, marginBottom: 14 }}>
+              Strict RFC-compliant email verification that only accepts valid email formats. Includes real-time auto-complete domain suggestions and dynamic status feedback.
+            </Paragraph>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <AppInput.Email
+                label="Primary Account Email"
+                required
+                value={emailLiveValue}
+                onChange={setEmailLiveValue}
+                onValidChange={setIsEmailValid}
+                tooltip="Type your username or select popular domains from the dropdown list"
+                helperText="Enter a full email address with a valid domain name."
+              />
+
+              {/* Real-time Email Format Inspector */}
+              <div
+                style={{
+                  padding: '12px 14px',
+                  borderRadius: 8,
+                  background: 'var(--ant-color-bg-layout, #f8fafc)',
+                  border: '1px solid var(--ant-color-border-secondary, #e2e8f0)',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                  <Text strong style={{ fontSize: 12 }}>Email Format Validation Checklist</Text>
+                  <Tag color={isEmailValid ? 'success' : 'error'}>
+                    {isEmailValid ? 'RFC Valid' : 'Format Invalid'}
+                  </Tag>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, fontSize: 12 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {emailLiveValue.includes('@') ? (
+                      <CheckCircleFilled style={{ color: '#10b981' }} />
+                    ) : (
+                      <CloseCircleOutlined style={{ color: '#ef4444' }} />
+                    )}
+                    <span>Contains '@' Separator</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {!emailLiveValue.includes(' ') && emailLiveValue.length > 0 ? (
+                      <CheckCircleFilled style={{ color: '#10b981' }} />
+                    ) : (
+                      <CloseCircleOutlined style={{ color: '#ef4444' }} />
+                    )}
+                    <span>No Spaces Allowed</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {emailLiveValue.split('@')[1]?.includes('.') ? (
+                      <CheckCircleFilled style={{ color: '#10b981' }} />
+                    ) : (
+                      <CloseCircleOutlined style={{ color: '#ef4444' }} />
+                    )}
+                    <span>Domain Has Extension</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {isEmailValid ? (
+                      <CheckCircleFilled style={{ color: '#10b981' }} />
+                    ) : (
+                      <CloseCircleOutlined style={{ color: '#ef4444' }} />
+                    )}
+                    <span>Valid Top-Level Domain</span>
+                  </div>
+                </div>
+              </div>
+
+              <AppInput.Email
+                label="Corporate SSO Domain Restricted"
+                defaultValue="developer@enterprise.io"
+                domains={['enterprise.io', 'internal.net', 'cloud.org']}
+                strict
+                helperText="Restricted to authorized organization domains."
+              />
+            </div>
+          </Card>
+        </Col>
+
+        {/* 14. International Phone Number Input */}
+        <Col xs={24} lg={12}>
+          <Card
+            title={
+              <Space>
+                <PhoneOutlined style={{ color: presetColor }} />
+                <span>14. International Phone Number Input</span>
+              </Space>
+            }
+            style={{ height: '100%' }}
+          >
+            <Paragraph type="secondary" style={{ fontSize: 13, marginBottom: 14 }}>
+              International telephone input with country dial-code selector, flag icons, numeric character restriction, and real-time formatting.
+            </Paragraph>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <AppInput.Phone
+                label="Primary Mobile Contact"
+                required
+                defaultCountryCode={phoneLiveCode}
+                defaultValue={phoneLiveNumber}
+                onChange={(full, raw, code) => {
+                  setPhoneLiveNumber(raw);
+                  setPhoneLiveCode(code);
+                }}
+                tooltip="Select your country code from the dropdown"
+                helperText="Only digits are accepted. Formats automatically as you type."
+              />
+
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '10px 14px',
+                  borderRadius: 8,
+                  background: 'var(--ant-color-bg-layout, #f8fafc)',
+                  border: '1px solid var(--ant-color-border-secondary, #e2e8f0)',
+                }}
+              >
+                <div>
+                  <Text type="secondary" style={{ fontSize: 11, display: 'block' }}>Resolved E.164 Value</Text>
+                  <Text code style={{ fontSize: 13 }}>{`${phoneLiveCode} ${phoneLiveNumber}`}</Text>
+                </div>
+                <Tag color={phoneLiveNumber.length >= 10 ? 'success' : 'processing'}>
+                  {phoneLiveNumber.length >= 10 ? 'Valid Length' : `${phoneLiveNumber.length}/10 Digits`}
+                </Tag>
+              </div>
+
+              <AppInput.Phone
+                label="Secondary Emergency Phone"
+                defaultCountryCode="+1"
+                placeholder="(555) 019-2834"
+                helperText="United States / Canada (+1) format"
+              />
+            </div>
+          </Card>
+        </Col>
+
+        {/* 15. File & Document Upload Inputs */}
+        <Col xs={24} lg={12}>
+          <Card
+            title={
+              <Space>
+                <UploadOutlined style={{ color: presetColor }} />
+                <span>15. File & Document Upload Inputs</span>
+              </Space>
+            }
+            style={{ height: '100%' }}
+          >
+            <Paragraph type="secondary" style={{ fontSize: 13, marginBottom: 14 }}>
+              Drag-and-drop upload zone and standard file trigger with file type filtering, maximum file size enforcement, and live file queue previews.
+            </Paragraph>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <AppInput.File
+                dragger
+                multiple
+                label="Project Documentation & Media Dropzone"
+                required
+                maxSizeMB={10}
+                maxCount={4}
+                accept=".png,.jpg,.jpeg,.pdf,.zip"
+                value={demoUploadedFiles}
+                onChange={setDemoUploadedFiles}
+                draggerTitle="Drag files here or click to browse"
+                draggerSubtitle="Upload PDF reports, PNG/JPG assets, or ZIP archives"
+                tooltip="Maximum 4 files, up to 10 MB each"
+                helperText="Files are verified client-side before asynchronous chunk upload."
+              />
+
+              <AppInput.File
+                label="Single ID Verification Document"
+                accept=".pdf,.png,.jpg"
+                maxSizeMB={5}
+                buttonText="Browse Government ID (PDF/JPG)"
+                helperText="Accepts official Passport, National ID, or Driving License up to 5 MB."
+              />
+            </div>
+          </Card>
+        </Col>
+
+        {/* 16. HTML5 & Specialized Data Types */}
+        <Col xs={24} lg={12}>
+          <Card
+            title={
+              <Space>
+                <BgColorsOutlined style={{ color: presetColor }} />
+                <span>16. Specialized Data Types: Color, Number & Limits</span>
+              </Space>
+            }
+            style={{ height: '100%' }}
+          >
+            <Paragraph type="secondary" style={{ fontSize: 13, marginBottom: 14 }}>
+              Enterprise controls for color picking, stepped numeric inputs with min/max bounds, synchronized range sliders, and strict character counters.
+            </Paragraph>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {/* Color Picker Input */}
+              <AppInput.Color
+                label="Theme Accent Color"
+                defaultValue={colorLiveValue}
+                onChange={setColorLiveValue}
+                helperText="Click the color box to open the full picker or click a swatch below."
+                tooltip="Live hex color synchronizer with clipboard copy action"
+              />
+
+              {/* Number Stepper with Min/Max/Step */}
+              <Row gutter={[12, 12]}>
+                <Col span={12}>
+                  <AppInput.Number
+                    label="Worker Replicas"
+                    min={1}
+                    max={20}
+                    step={1}
+                    value={numberLiveValue}
+                    onChange={(v) => setNumberLiveValue(v as number)}
+                    unit="Pods"
+                    helperText="Cluster scale: 1 to 20 pods."
+                  />
+                </Col>
+                <Col span={12}>
+                  <AppInput.Number
+                    label="Monthly Budget"
+                    min={100}
+                    max={50000}
+                    step={500}
+                    defaultValue={12500}
+                    prefix="$"
+                    unit="USD"
+                    helperText="Step interval: $500."
+                  />
+                </Col>
+              </Row>
+
+              {/* Character Count & Max Length Constraint */}
+              <div>
+                <AppInput
+                  label="Service Endpoint Name (Max 80 Characters)"
+                  required
+                  maxLength={80}
+                  showCount
+                  value={charCountValue}
+                  onChange={(e) => setCharCountValue(e.target.value)}
+                  prefix={<GlobalOutlined style={{ color: presetColor }} />}
+                  helperText="Enforces maximum length constraint to prevent database truncation."
+                />
+              </div>
+
+              {/* Date & Time Inputs */}
+              <Row gutter={[12, 12]}>
+                <Col span={12}>
+                  <AppInput.Date
+                    label="Target Release Date"
+                    helperText="Scheduled CI/CD release."
+                  />
+                </Col>
+                <Col span={12}>
+                  <AppInput.Time
+                    label="Daily Backup Window"
+                    helperText="Automated snapshot time."
+                  />
+                </Col>
+              </Row>
+
+              {/* Range Slider Synchronized with Numerical Input */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <Text strong style={{ fontSize: 13 }}>Throughput Throttle Limit</Text>
+                  <Tag color="cyan">{rangeLiveValue}% Capacity</Tag>
+                </div>
+                <Slider
+                  min={0}
+                  max={100}
+                  step={5}
+                  value={rangeLiveValue}
+                  onChange={setRangeLiveValue}
+                  marks={{ 0: '0%', 50: '50%', 100: '100%' }}
+                />
+              </div>
+            </div>
+          </Card>
+        </Col>
+
+        {/* 17. Interactive Playground & Code Generator */}
         <Col xs={24} id="playground-section" style={{ scrollMarginTop: 80 }}>
           <Card
             title={
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
                 <Space>
                   <CodeOutlined style={{ color: presetColor }} />
-                  <span style={{ fontWeight: 700 }}>13. Interactive AppInput Playground & Code Generator</span>
+                  <span style={{ fontWeight: 700 }}>17. Interactive AppInput Playground & Code Generator</span>
                 </Space>
                 <Space size={8}>
-                  <AppButton
+                  <Button
                     size="small"
                     type="default"
                     icon={copiedCode ? <CheckOutlined style={{ color: '#52c41a' }} /> : <CopyOutlined />}
@@ -876,15 +1211,15 @@ export const InputsPage: React.FC = () => {
                     style={{ color: copiedCode ? '#52c41a' : undefined }}
                   >
                     {copiedCode ? 'Copied Code!' : 'Copy JSX'}
-                  </AppButton>
-                  <AppButton
+                  </Button>
+                  <Button
                     size="small"
                     type="text"
                     icon={<ArrowUpOutlined />}
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   >
                     Back to Top
-                  </AppButton>
+                  </Button>
                 </Space>
               </div>
             }
