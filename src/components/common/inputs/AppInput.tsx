@@ -43,6 +43,12 @@ import {
   NumberOutlined,
   BgColorsOutlined,
 } from '@ant-design/icons';
+import { FileInput } from './FileInput';
+import type { FileInputProps as AppInputFileProps, AppUploadedFile } from './FileInput';
+import { SelectInput } from './SelectInput';
+import type { SelectInputProps } from './SelectInput';
+
+export type { AppInputFileProps, AppUploadedFile, SelectInputProps };
 
 // ============================================================================
 // Core Interfaces
@@ -151,37 +157,6 @@ export interface AppInputPhoneProps extends Omit<InputProps, 'onChange'> {
   containerClassName?: string;
 }
 
-export interface AppUploadedFile {
-  id: string;
-  name: string;
-  size: number;
-  type: string;
-  formattedSize: string;
-  progress?: number;
-  status: 'uploading' | 'done' | 'error';
-  errorMessage?: string;
-  file?: File;
-  previewUrl?: string;
-}
-
-export interface AppInputFileProps {
-  label?: React.ReactNode;
-  required?: boolean;
-  helperText?: React.ReactNode;
-  tooltip?: React.ReactNode;
-  accept?: string;
-  maxSizeMB?: number;
-  maxCount?: number;
-  multiple?: boolean;
-  dragger?: boolean;
-  buttonText?: React.ReactNode;
-  draggerTitle?: React.ReactNode;
-  draggerSubtitle?: React.ReactNode;
-  value?: AppUploadedFile[];
-  onChange?: (files: AppUploadedFile[]) => void;
-  containerStyle?: React.CSSProperties;
-  containerClassName?: string;
-}
 
 export interface AppInputNumberProps extends InputNumberProps {
   label?: React.ReactNode;
@@ -254,6 +229,7 @@ export interface AppInputComponent
     AppInputPhoneProps & React.RefAttributes<InputRef>
   >;
   File: React.FC<AppInputFileProps>;
+  Select: React.ForwardRefExoticComponent<any>;
   Number: React.ForwardRefExoticComponent<
     AppInputNumberProps & React.RefAttributes<any>
   >;
@@ -792,231 +768,7 @@ const AppInputPhone = forwardRef<InputRef, AppInputPhoneProps>(
 );
 
 // ============================================================================
-// 8. AppInput.File (Drag & Drop + Single/Multi File Upload + Previews)
-// ============================================================================
-
-const formatBytes = (bytes: number): string => {
-  if (bytes === 0) return '0 B';
-  const k = 1024;
-  const sizes = ['B', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
-};
-
-const getFileIcon = (fileName: string) => {
-  const ext = fileName.split('.').pop()?.toLowerCase();
-  if (ext === 'pdf') {
-    return <FilePdfOutlined style={{ color: '#ef4444', fontSize: 22 }} />;
-  }
-  if (['png', 'jpg', 'jpeg', 'svg', 'webp', 'gif'].includes(ext || '')) {
-    return <FileImageOutlined style={{ color: '#10b981', fontSize: 22 }} />;
-  }
-  return <FileOutlined style={{ color: '#1677ff', fontSize: 22 }} />;
-};
-
-const AppInputFile: React.FC<AppInputFileProps> = ({
-  label,
-  required,
-  helperText,
-  tooltip,
-  accept,
-  maxSizeMB = 10,
-  maxCount = 5,
-  multiple = false,
-  dragger = false,
-  buttonText = 'Choose File',
-  draggerTitle = 'Click or drag files here to upload',
-  draggerSubtitle = 'Supports documents, images, and archives',
-  value: controlledFiles,
-  onChange,
-  containerStyle,
-  containerClassName,
-}) => {
-  const [innerFiles, setInnerFiles] = useState<AppUploadedFile[]>([]);
-  const [isDragOver, setIsDragOver] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const files = controlledFiles !== undefined ? controlledFiles : innerFiles;
-
-  const processFiles = (rawFiles: FileList | null) => {
-    if (!rawFiles || rawFiles.length === 0) return;
-    setErrorMessage('');
-
-    const newFiles: AppUploadedFile[] = [];
-    const maxSizeBytes = maxSizeMB * 1024 * 1024;
-
-    for (let i = 0; i < rawFiles.length; i++) {
-      const file = rawFiles[i];
-
-      if (files.length + newFiles.length >= maxCount) {
-        setErrorMessage(`Maximum upload limit is ${maxCount} file(s).`);
-        break;
-      }
-
-      if (file.size > maxSizeBytes) {
-        setErrorMessage(`"${file.name}" exceeds maximum allowed size of ${maxSizeMB} MB.`);
-        continue;
-      }
-
-      const uploadedItem: AppUploadedFile = {
-        id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        formattedSize: formatBytes(file.size),
-        status: 'done',
-        progress: 100,
-        file,
-        previewUrl: file.type.startsWith('image/') ? URL.createObjectURL(file) : undefined,
-      };
-
-      newFiles.push(uploadedItem);
-    }
-
-    if (newFiles.length > 0) {
-      const updated = multiple ? [...files, ...newFiles] : newFiles;
-      if (controlledFiles === undefined) {
-        setInnerFiles(updated);
-      }
-      onChange?.(updated);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    processFiles(e.target.files);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    processFiles(e.dataTransfer.files);
-  };
-
-  const handleRemove = (id: string) => {
-    const updated = files.filter((f) => f.id !== id);
-    if (controlledFiles === undefined) {
-      setInnerFiles(updated);
-    }
-    onChange?.(updated);
-  };
-
-  const triggerInput = () => {
-    fileInputRef.current?.click();
-  };
-
-  const inputNode = (
-    <div style={{ width: '100%' }}>
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept={accept}
-        multiple={multiple}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-      />
-
-      {dragger ? (
-        <div
-          className={`app-file-dragger ${isDragOver ? 'drag-over' : ''}`}
-          onClick={triggerInput}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setIsDragOver(true);
-          }}
-          onDragLeave={() => setIsDragOver(false)}
-          onDrop={handleDrop}
-        >
-          <InboxOutlined style={{ fontSize: 36, color: 'var(--primary-color, #1677ff)', marginBottom: 8 }} />
-          <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ant-color-text, #1e293b)' }}>
-            {draggerTitle}
-          </div>
-          <div style={{ fontSize: 12, color: 'var(--ant-color-text-secondary, #64748b)', marginTop: 4 }}>
-            {draggerSubtitle} • Max {maxSizeMB} MB
-          </div>
-        </div>
-      ) : (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <Button icon={<UploadOutlined />} onClick={triggerInput}>
-            {buttonText}
-          </Button>
-          <span style={{ fontSize: 12, color: 'var(--ant-color-text-secondary, #64748b)' }}>
-            {accept ? `Accepted formats: ${accept}` : `Max size: ${maxSizeMB} MB`}
-          </span>
-        </div>
-      )}
-
-      {errorMessage && (
-        <div style={{ color: '#ef4444', fontSize: 12, marginTop: 6, fontWeight: 500 }}>
-          {errorMessage}
-        </div>
-      )}
-
-      {/* Selected File Previews */}
-      {files.length > 0 && (
-        <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {files.map((file) => (
-            <div key={file.id} className="app-file-preview-card">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0, flex: 1 }}>
-                {file.previewUrl ? (
-                  <img
-                    src={file.previewUrl}
-                    alt={file.name}
-                    style={{ width: 34, height: 34, borderRadius: 6, objectFit: 'cover' }}
-                  />
-                ) : (
-                  getFileIcon(file.name)
-                )}
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      color: 'var(--ant-color-text, #1e293b)',
-                    }}
-                  >
-                    {file.name}
-                  </div>
-                  <div style={{ fontSize: 11, color: 'var(--ant-color-text-tertiary, #94a3b8)' }}>
-                    {file.formattedSize} • <span style={{ color: '#10b981' }}>Ready</span>
-                  </div>
-                </div>
-              </div>
-              <Button
-                type="text"
-                danger
-                size="small"
-                icon={<DeleteOutlined />}
-                onClick={() => handleRemove(file.id)}
-                title="Remove file"
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-
-  return renderInputWrapper(
-    inputNode,
-    label,
-    required,
-    tooltip,
-    helperText,
-    undefined,
-    containerStyle,
-    containerClassName
-  );
-};
-
-// ============================================================================
-// 9. AppInput.Number (Min, Max, Step, Currency & Unit)
+// 8. AppInput.Number (Min, Max, Step, Currency & Unit)
 // ============================================================================
 
 const AppInputNumber = forwardRef<any, AppInputNumberProps>(
@@ -1256,7 +1008,8 @@ AppInput.Search = AppInputSearch as any;
 AppInput.OTP = AppInputOTP as any;
 AppInput.Email = AppInputEmail as any;
 AppInput.Phone = AppInputPhone as any;
-AppInput.File = AppInputFile as any;
+AppInput.File = FileInput as any;
+AppInput.Select = SelectInput as any;
 AppInput.Number = AppInputNumber as any;
 AppInput.Color = AppInputColor as any;
 AppInput.Date = AppInputDate as any;

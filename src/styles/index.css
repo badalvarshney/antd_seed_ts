@@ -378,6 +378,24 @@ input.ant-input:not(.ant-input-affix-wrapper *):not(.ant-otp-input):not([type="f
   box-sizing: border-box !important;
 }
 
+/* Ant Design Select Box uniform height & radius */
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-radius: var(--input-border-radius, 10px) !important;
+  min-height: var(--input-height, 40px) !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+  height: var(--input-height, 40px) !important;
+}
+
+.ant-select-multiple .ant-select-selection-item {
+  border-radius: 6px !important;
+  align-items: center !important;
+}
+
 /* AppInput File Dragger Styling */
 .app-file-dragger {
   border: 2px dashed var(--ant-color-border, #cbd5e1);

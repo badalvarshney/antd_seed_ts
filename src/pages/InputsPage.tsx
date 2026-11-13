@@ -55,12 +55,15 @@ import {
   ClockCircleOutlined,
   NumberOutlined,
   SlidersOutlined,
+  TagsOutlined,
+  FilterOutlined,
+  FolderOpenOutlined,
 } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { selectCustomization } from '../features/customization/customizationSlice';
-import { AppInput } from '../components/common/inputs';
+import { AppInput, FileInput, SelectInput } from '../components/common/inputs';
 import type { AppUploadedFile } from '../components/common/inputs';
 import { PasswordStrengthBar, AppPageHeader } from '../components/common';
 
@@ -120,6 +123,11 @@ export const InputsPage: React.FC = () => {
       progress: 100,
     },
   ]);
+
+  // Select Box Demo States
+  const [selectedDepartment, setSelectedDepartment] = useState<string>('engineering');
+  const [selectedMultipleRoles, setSelectedMultipleRoles] = useState<string[]>(['frontend', 'architect']);
+  const [selectedMultipleSkills, setSelectedMultipleSkills] = useState<string[]>(['React 19', 'TypeScript', 'Ant Design']);
 
   // Formik Demo Form
   const formik = useFormik({
@@ -187,7 +195,8 @@ export const InputsPage: React.FC = () => {
           <>
             <Tag color={presetColor}>Ant Design 6</Tag>
             <Tag color="cyan">AppInput Master</Tag>
-            <Tag color="blue">File & Upload</Tag>
+            <Tag color="blue">File & Multi-Upload</Tag>
+            <Tag color="gold">Select & Multi-Select</Tag>
             <Tag color="green">Strict Email & Phone</Tag>
             <Tag color="magenta">Color & Number Stepper</Tag>
             <Tag color="purple">TypeScript Safe</Tag>
@@ -1056,49 +1065,126 @@ export const InputsPage: React.FC = () => {
             title={
               <Space>
                 <UploadOutlined style={{ color: presetColor }} />
-                <span>15. File & Document Upload Inputs</span>
+                <span>15. File & Document Upload Inputs (Single & Multiple)</span>
               </Space>
             }
             style={{ height: '100%' }}
           >
             <Paragraph type="secondary" style={{ fontSize: 13, marginBottom: 14 }}>
-              Drag-and-drop upload zone and standard file trigger with file type filtering, maximum file size enforcement, and live file queue previews.
+              Dedicated FileInput component supporting single and multiple file uploads, interactive drag-and-drop zone, size restriction rules, and file previews with delete actions.
             </Paragraph>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <AppInput.File
+              {/* Drag & Drop Multi-file Dropzone */}
+              <FileInput
                 dragger
                 multiple
-                label="Project Documentation & Media Dropzone"
+                label="Batch Document & Media Dropzone (Multiple Files)"
                 required
                 maxSizeMB={10}
-                maxCount={4}
-                accept=".png,.jpg,.jpeg,.pdf,.zip"
+                maxCount={5}
+                accept=".png,.jpg,.jpeg,.pdf,.zip,.docx"
                 value={demoUploadedFiles}
                 onChange={setDemoUploadedFiles}
-                draggerTitle="Drag files here or click to browse"
+                draggerTitle="Drag multiple files here or click to browse"
                 draggerSubtitle="Upload PDF reports, PNG/JPG assets, or ZIP archives"
-                tooltip="Maximum 4 files, up to 10 MB each"
-                helperText="Files are verified client-side before asynchronous chunk upload."
+                tooltip="Select and upload multiple files at once (up to 5 files, max 10 MB each)"
+                helperText="Supports batch multi-file selection with individual removal and format validation."
               />
 
-              <AppInput.File
+              {/* Standard Button File Input */}
+              <FileInput
                 label="Single ID Verification Document"
                 accept=".pdf,.png,.jpg"
                 maxSizeMB={5}
-                buttonText="Browse Government ID (PDF/JPG)"
+                buttonText="Select Verification Document (PDF/JPG)"
                 helperText="Accepts official Passport, National ID, or Driving License up to 5 MB."
               />
             </div>
           </Card>
         </Col>
 
-        {/* 16. HTML5 & Specialized Data Types */}
+        {/* 16. Select Box & Multi-Select Dropdowns */}
+        <Col xs={24} lg={12}>
+          <Card
+            title={
+              <Space>
+                <FilterOutlined style={{ color: presetColor }} />
+                <span>16. Select Box & Multi-Select Dropdowns</span>
+              </Space>
+            }
+            style={{ height: '100%' }}
+          >
+            <Paragraph type="secondary" style={{ fontSize: 13, marginBottom: 14 }}>
+              Enterprise SelectInput component supporting single select with search, multiple selection with responsive tag badges, custom tags creation, and option groups.
+            </Paragraph>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {/* Single Select with Prefix Icon & Search */}
+              <SelectInput
+                label="Primary Business Unit"
+                required
+                prefixIcon={<AppstoreOutlined />}
+                placeholder="Choose organizational division"
+                value={selectedDepartment}
+                onChange={setSelectedDepartment}
+                options={[
+                  { label: 'Cloud Architecture & DevOps', value: 'engineering' },
+                  { label: 'Product Design & UX Systems', value: 'design' },
+                  { label: 'Enterprise Security & Compliance', value: 'security' },
+                  { label: 'Sales & Customer Success', value: 'sales' },
+                ]}
+                tooltip="Select a department from the searchable dropdown"
+                helperText="Searchable single select box with icon prefix."
+              />
+
+              {/* Multiple Select Box (mode="multiple") */}
+              <SelectInput
+                mode="multiple"
+                label="Assigned System Roles (Multiple Selection)"
+                required
+                maxTagCount="responsive"
+                value={selectedMultipleRoles}
+                onChange={setSelectedMultipleRoles}
+                placeholder="Select one or more user roles"
+                options={[
+                  { label: 'Frontend Architect', value: 'frontend' },
+                  { label: 'Backend Platform Engineer', value: 'backend' },
+                  { label: 'Security & IAM Administrator', value: 'security' },
+                  { label: 'Principal Systems Architect', value: 'architect' },
+                  { label: 'QA Automation Lead', value: 'qa' },
+                  { label: 'DevOps Release Manager', value: 'devops' },
+                ]}
+                helperText="Multiple item selection with responsive chips, clear all, and live search."
+              />
+
+              {/* Tags Mode (mode="tags") */}
+              <SelectInput
+                mode="tags"
+                label="Technical Skills & Competencies (Custom Tags)"
+                maxTagCount="responsive"
+                value={selectedMultipleSkills}
+                onChange={setSelectedMultipleSkills}
+                placeholder="Type any skill and press Enter"
+                options={[
+                  { label: 'React 19', value: 'React 19' },
+                  { label: 'TypeScript', value: 'TypeScript' },
+                  { label: 'Ant Design', value: 'Ant Design' },
+                  { label: 'Vite 8', value: 'Vite 8' },
+                  { label: 'Redux Toolkit', value: 'Redux Toolkit' },
+                  { label: 'GraphQL', value: 'GraphQL' },
+                ]}
+                helperText="Allows arbitrary token creation on Enter or comma."
+              />
+            </div>
+          </Card>
+        </Col>
+
+        {/* 17. HTML5 & Specialized Data Types */}
         <Col xs={24} lg={12}>
           <Card
             title={
               <Space>
                 <BgColorsOutlined style={{ color: presetColor }} />
-                <span>16. Specialized Data Types: Color, Number & Limits</span>
+                <span>17. Specialized Data Types: Color, Number & Limits</span>
               </Space>
             }
             style={{ height: '100%' }}
@@ -1193,14 +1279,14 @@ export const InputsPage: React.FC = () => {
           </Card>
         </Col>
 
-        {/* 17. Interactive Playground & Code Generator */}
+        {/* 18. Interactive Playground & Code Generator */}
         <Col xs={24} id="playground-section" style={{ scrollMarginTop: 80 }}>
           <Card
             title={
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
                 <Space>
                   <CodeOutlined style={{ color: presetColor }} />
-                  <span style={{ fontWeight: 700 }}>17. Interactive AppInput Playground & Code Generator</span>
+                  <span style={{ fontWeight: 700 }}>18. Interactive AppInput Playground & Code Generator</span>
                 </Space>
                 <Space size={8}>
                   <Button

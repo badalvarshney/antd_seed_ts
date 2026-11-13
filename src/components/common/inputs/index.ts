@@ -5,13 +5,18 @@ export type {
   AppInputEmailProps,
   AppInputPhoneProps,
   AppInputFileProps,
-  AppUploadedFile,
   AppInputNumberProps,
   AppInputColorProps,
   AppInputDateProps,
   AppInputTimeProps,
   CountryOption,
 } from './AppInput';
+
+export { FileInput, default as FileInputDefault } from './FileInput';
+export type { FileInputProps, AppUploadedFile } from './FileInput';
+
+export { SelectInput, default as SelectInputDefault } from './SelectInput';
+export type { SelectInputProps } from './SelectInput';
 
 export { default as FormikTextInput } from './FormikTextInput';
 export type { FormikTextInputProps } from './FormikTextInput';
